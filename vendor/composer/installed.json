@@ -1,0 +1,140 @@
+[
+    {
+        "name": "twbs/bootstrap",
+        "version": "v4.0.0-beta.2",
+        "version_normalized": "4.0.0.0-beta2",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/twbs/bootstrap.git",
+            "reference": "fc94de5b8b5b329a298eeeb76174b146ff17af2d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/twbs/bootstrap/zipball/fc94de5b8b5b329a298eeeb76174b146ff17af2d",
+            "reference": "fc94de5b8b5b329a298eeeb76174b146ff17af2d",
+            "shasum": ""
+        },
+        "replace": {
+            "twitter/bootstrap": "self.version"
+        },
+        "time": "2017-10-19T19:23:29+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.3.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jacob Thornton",
+                "email": "jacobthornton@gmail.com"
+            },
+            {
+                "name": "Mark Otto",
+                "email": "markdotto@gmail.com"
+            }
+        ],
+        "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+        "homepage": "https://getbootstrap.com",
+        "keywords": [
+            "JS",
+            "css",
+            "framework",
+            "front-end",
+            "mobile-first",
+            "responsive",
+            "sass",
+            "web"
+        ]
+    },
+    {
+        "name": "components/font-awesome",
+        "version": "4.7.0",
+        "version_normalized": "4.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/font-awesome.git",
+            "reference": "885308b939369d147bec93174722786bc2c4eedd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/components/font-awesome/zipball/885308b939369d147bec93174722786bc2c4eedd",
+            "reference": "885308b939369d147bec93174722786bc2c4eedd",
+            "shasum": ""
+        },
+        "time": "2016-10-25T10:56:23+00:00",
+        "type": "component",
+        "extra": {
+            "component": {
+                "styles": [
+                    "css/font-awesome.css"
+                ],
+                "files": [
+                    "css/font-awesome.min.css",
+                    "css/font-awesome.css.map",
+                    "fonts/*"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT",
+            "OFL-1.1"
+        ],
+        "description": "The iconic font designed for use with Twitter Bootstrap."
+    },
+    {
+        "name": "mustache/mustache",
+        "version": "v2.12.0",
+        "version_normalized": "2.12.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/mustache.php.git",
+            "reference": "fe8fe72e9d580591854de404cc59a1b83ca4d19e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/fe8fe72e9d580591854de404cc59a1b83ca4d19e",
+            "reference": "fe8fe72e9d580591854de404cc59a1b83ca4d19e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "~1.11",
+            "phpunit/phpunit": "~3.7|~4.0|~5.0"
+        },
+        "time": "2017-07-11T12:54:05+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Mustache": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "A Mustache implementation in PHP.",
+        "homepage": "https://github.com/bobthecow/mustache.php",
+        "keywords": [
+            "mustache",
+            "templating"
+        ]
+    }
+]

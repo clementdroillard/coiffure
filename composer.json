@@ -1,0 +1,7 @@
+{
+    "require": {
+        "mustache/mustache": "^2.12",
+        "twbs/bootstrap": "4.0.0-beta.2",
+        "components/font-awesome": "^4.7"
+    }
+}
