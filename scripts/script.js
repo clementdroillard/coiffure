@@ -14,16 +14,9 @@ function connexion()
         //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {
             const client = xhr.responseText;
-            let xhr2 = new XMLHttpRequest();
-            xhr2.open("POST", "mustache/client.php");
-            xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr2.send("client="+client);
-            xhr2.onreadystatechange = function() {
-                if (xhr2.readyState == 4 && xhr2.status == 200) {
-                    console.log(xhr2.responseText)
-            }
-        };
-    }
+            document.getElementById("clientValue").value = client;
+            document.getElementById("postClient").submit();
+        }
         //les identifiants sont mauvais
         if (xhr.readyState == 4 && xhr.status == 404) {
             document.getElementById("info").innerHTML = "erreur de connexion";
