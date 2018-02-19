@@ -3,16 +3,15 @@
  	Mustache_Autoloader::register();
  	session_start();
 
- 	if(!isset($_SESSION['prenom']))
+ 	if(isset($_SESSION['prenom']))
  	{
- 		header('Location: ../index.php');
+ 		header('Location: client.php');
  	}
 
 	$m = new Mustache_Engine(array(
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
 	//affichage de notre vue 
- 	echo $m->render('rdv' ,array('prenomClient'=>$_SESSION['prenom'],'nomClient'=>$_SESSION['nom'],'mailClient'=>$_SESSION['mail'],'idClient'=>$_SESSION['id']));
+ 	echo $m->render('index' ,array());
 
  ?>
-

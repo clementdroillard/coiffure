@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Mon rdv coiffure</title>
+        <title>Mon rdv coiffure </title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.6 -->
@@ -37,7 +37,7 @@
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
-                <a href="client.php" class="logo">
+                <a href="index.php" class="logo">
                     <span class="logo-lg"><b>Rdv coiffure</b></span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
@@ -47,35 +47,30 @@
                         <span class="sr-only">Toggle navigation</span>
                     </a>
                     <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
-                            <li class="dropdown messages-menu">
-                                <a href="#" class="dropdown-toggle" >
-                                    <font color="white" size="6" ><b>Bonjour,  {{prenomClient}}</b></font>
-                                </a>
-                            </li>
-                            <li class="dropdown messages-menu">
-                                <a href="../scripts/deconnexion.php" class="dropdown-toggle" >
-                                    <i class="fa fa-power-off fa-2x"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+	                    <ul class="nav navbar-nav">
+	                        <li class="dropdown messages-menu">
+	                            <a href="inscription.php" class="dropdown-toggle" >
+	                                <font color="white" size="5"><b>Inscription</b></font>
+	                            </a>
+	                        </li>
+	                    </ul>
+	                </div>    
                 </nav>
             </header>
-            <!-- Left side column. contains the logo and sidebar -->
-            <aside class="main-sidebar">
-                <!-- sidebar: style can be found in sidebar.less -->
-                <section class="sidebar">
-                    <ul class="sidebar-menu">
-                        <li class="header">MENU</li>
-                        <li><a href="client.php"><i class="fa fa-home"></i> <span>Accueil</span></a></li>
-                        <li><a href="rdv.php"><i class="fa fa-calendar"></i> <span>Prendre rdv</span></a></li>
-                    </ul>
-                </section>
-            </aside>
 
 
-
-
-
-          
+            <div class="content-wrapper">
+                <section class="content">
+                	<h1>Connectez-vous : </h1>
+                    <div class="col-md-offset-3 col-md-6">
+						<h2 id="info"></h2>
+					        <h3 class="box-title">Adresse Mail :</h3>
+					        <input class="form-control" type="text" id="adresseMail" /><br />
+					        <h3 class="box-title"> Mot de passe :</h3> 
+					        <input class="form-control" type="password" id="motDePasse" /><br />
+					        <center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="connexion();" value="Connexion" /></center>
+					    <form method="POST" action="client.php" id="postClient">
+							<input type="hidden" id="clientValue" name="client" />
+						</form>
+					</div>
+					{{> footer}}
