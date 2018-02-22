@@ -2,6 +2,8 @@
  	require '../vendor/autoload.php';
  	Mustache_Autoloader::register();
  	session_start();
+ 	//connexion a notre api
+ 	include("connexion.php");
 
  	if(!isset($_SESSION['prenom']))
  	{
@@ -11,8 +13,9 @@
 	$m = new Mustache_Engine(array(
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
+
 	//affichage de notre vue 
- 	echo $m->render('rdv' ,array('prenomClient'=>$_SESSION['prenom'],'nomClient'=>$_SESSION['nom'],'mailClient'=>$_SESSION['mail'],'idClient'=>$_SESSION['id']));
+ 	echo $m->render('rdv' ,array('prenomClient'=>$_SESSION['prenom'],'nomClient'=>$_SESSION['nom'],'mailClient'=>$_SESSION['mail'],'idClient'=>$_SESSION['id'],'api'=>$api));
 
  ?>
 

@@ -2,6 +2,7 @@
  	require '../vendor/autoload.php';
  	Mustache_Autoloader::register();
  	session_start();
+ 	include("connexion.php");
 
  	if(isset($_SESSION['prenom']))
  	{
@@ -12,6 +13,6 @@
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
 	//affichage de notre vue 
- 	echo $m->render('inscription' ,array());
+ 	echo $m->render('inscription' ,array("api"=>$api));
 
  ?>
