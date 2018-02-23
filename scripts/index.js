@@ -7,7 +7,7 @@ function connexion()
 
     //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:8000/api/client/auth", true);
+    xhr.open("POST", api+"client/auth", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("adresseMail="+email+"&motDePasse="+pass);
     //lorsque la requete a réussi
@@ -87,7 +87,7 @@ function inscriptionPost(){
 
     //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://127.0.0.1:8000/api/client", true);
+    xhr.open("POST", api+"client", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("adresseMail="+email+"&motDePasse="+pass+"&nom="+nom+"&prenom="+prenom);
     //lorsque la requete a réussi

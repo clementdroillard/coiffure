@@ -8,15 +8,23 @@
 	  			<strong>Erreur de connexion !</strong> 
 			</div>
 			<h3 class="box-title">1) Choisir votre salon :</h3>
-	    	<select id="listeSalon" onchange="chargerListeCoiffeur()" class="selectpicker" >
+	    	<select id="listeSalon" onchange="chargerListeCoiffeur(this.selectedIndex);chargerListeprestation(this.selectedIndex)" class="selectpicker" >
 			</select>
 			<h3 class="box-title">2) Choisir votre coiffeur :</h3>
-			<select id="listeCoiffeur" onchange="chargerEmploieDuTemps()" >
+			<select id="listeCoiffeur" onchange="chargerEmploieDuTemps()"  >
 			</select>
+			<h3 class="box-title">3) Choisir votre prestation :</h3>
+			<select id="listePrestation"  >
+			</select>
+			<div id='calendar'></div>
 		</div>	
 	    
     </section>
 </div>
+<script>
+  const clientId = {{ idClient }};
+  const api = '{{ api }}';
+</script>
 <script src="../scripts/rdv.js"></script>
 
 {{> footer}}
