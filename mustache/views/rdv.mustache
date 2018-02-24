@@ -3,22 +3,26 @@
 
 <div class="content-wrapper">
     <section class="content">
-	    <div class="col-md-offset-3">
-	    	<div class="alert alert-danger" style="display:none;" id="info" >
-	  			<strong>Erreur de connexion !</strong> 
+	    <div class="row">
+	        <div class="col-md-3 ">
+		    	<div class="alert alert-danger" style="display:none;" id="info" >
+		  			<strong>Erreur de connexion !</strong> 
+				</div>
+				<h3 class="box-title">1) Choisir votre salon :</h3>
+		    	<select id="listeSalon" onchange="chargerListeCoiffeur(this.selectedIndex);chargerListeprestation(this.selectedIndex)" class="form-control" >
+				</select>
+				<h3 class="box-title">2) Choisir votre coiffeur :</h3>
+				<select id="listeCoiffeur" onchange="chargerEmploieDuTemps()"  class="form-control" >
+				</select>
+				<h3 class="box-title">3) Choisir votre prestation :</h3>
+				<select id="listePrestation"  class="form-control" >
+				</select>
 			</div>
-			<h3 class="box-title">1) Choisir votre salon :</h3>
-	    	<select id="listeSalon" onchange="chargerListeCoiffeur(this.selectedIndex);chargerListeprestation(this.selectedIndex)" class="selectpicker" >
-			</select>
-			<h3 class="box-title">2) Choisir votre coiffeur :</h3>
-			<select id="listeCoiffeur" onchange="chargerEmploieDuTemps()"  >
-			</select>
-			<h3 class="box-title">3) Choisir votre prestation :</h3>
-			<select id="listePrestation"  >
-			</select>
-			<div id='calendar'></div>
-		</div>	
-	    
+			<div class="col-md-9" >
+			<div id="calendar"></div>  
+			</div>	
+		</div>	 
+		 
     </section>
 </div>
 <script>

@@ -1,37 +1,41 @@
+chargerListeSalon();
+function chargerListeSalon()
+{
+    //on vide la liste
+    document.getElementById("listeSalon").innerHTML = "";
+    const listeSalon = document.getElementById("listeSalon");
+    document.getElementById("info").style.display = "none" ;
 
-//on vide la liste
-document.getElementById("listeSalon").innerHTML = "";
-const listeSalon = document.getElementById("listeSalon");
-document.getElementById("info").style.display = "none" ;
+    //on envoie la requete de connexion
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", api+"salons/client/"+clientId, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    //lorsque la requete a réussi
+    xhr.onreadystatechange = function() {
+        //les identifiants sont bons
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            const salons = JSON.parse(xhr.responseText);
+            salons.forEach(function(salon) {
+                let option = document.createElement("option");
+                option.text = salon.libelle;
+                option.value = salon.id;
+                listeSalon.add(option);
+            });
+            if(salons.length > 0)
+            {
+                chargerListeCoiffeur(0); 
+                chargerListeprestation(0); 
+                chargerEmploieDuTemps();
+            }       
+        }
+        //les identifiants sont mauvais
+        if ( xhr.status == 404) {
+            document.getElementById("info").style.display = "" ;
+        }
+    };
+}
 
-//on envoie la requete de connexion
-let xhr = new XMLHttpRequest();
-xhr.open("GET", api+"salons/client/"+clientId, true);
-xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-xhr.send(null);
-//lorsque la requete a réussi
-xhr.onreadystatechange = function() {
-    //les identifiants sont bons
-    if (xhr.readyState == 4 && xhr.status == 200) {
-        const salons = JSON.parse(xhr.responseText);
-        salons.forEach(function(salon) {
-            let option = document.createElement("option");
-            option.text = salon.libelle;
-            option.value = salon.id;
-            listeSalon.add(option);
-        });
-        if(salons.length > 0)
-        {
-            chargerListeCoiffeur(0); 
-            chargerListeprestation(0); 
-            chargerEmploieDuTemps();
-        }       
-    }
-    //les identifiants sont mauvais
-    if (xhr.readyState == 4 && xhr.status == 404) {
-        document.getElementById("info").style.display = "" ;
-    }
-};
 
 function chargerListeCoiffeur(ListeSalonIndex)
 {
@@ -61,7 +65,7 @@ function chargerListeCoiffeur(ListeSalonIndex)
             });    
         }
         //les identifiants sont mauvais
-        if (xhr.readyState == 4 && xhr.status == 404) {
+        if (xhr.status == 404) {
             document.getElementById("info").style.display = "" ;
         }
     };
@@ -95,7 +99,7 @@ function chargerListeprestation(ListeSalonIndex)
             });    
         }
         //les identifiants sont mauvais
-        if (xhr.readyState == 4 && xhr.status == 404) {
+        if ( xhr.status == 404) {
             document.getElementById("info").style.display = "" ;
         }
     };
@@ -104,8 +108,16 @@ function chargerListeprestation(ListeSalonIndex)
 
 function chargerEmploieDuTemps()
 {
+    var event={id:1 , title: 'New event', start:  "2018-02-24 08:00:00", end: "2018-02-24 10:00:00"};
      $('#calendar').fullCalendar({
-        // put your options and callbacks here
+        defaultView: 'agendaWeek' ,
+        locale: 'fr',
+        timeFormat: 'H(:mm)',
+        allDaySlot: false,
+        minTime: "06:00:00",
+        maxTime: "20:00:00",
     });
+
+     $('#calendar').fullCalendar( 'renderEvent', event );
 
 }
