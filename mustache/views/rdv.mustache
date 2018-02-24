@@ -9,14 +9,16 @@
 		  			<strong>Erreur de connexion !</strong> 
 				</div>
 				<h3 class="box-title">1) Choisir votre salon :</h3>
-		    	<select id="listeSalon" onchange="chargerListeCoiffeur(this.selectedIndex);chargerListeprestation(this.selectedIndex)" class="form-control" >
+		    	<select id="listeSalon" onchange="chargerListeCoiffeur();chargerListeprestation()" class="form-control" >
 				</select>
 				<h3 class="box-title">2) Choisir votre coiffeur :</h3>
-				<select id="listeCoiffeur" onchange="chargerEmploieDuTemps()"  class="form-control" >
+				<select id="listeCoiffeur" onchange="chargerEvenements()"  class="form-control" >
 				</select>
 				<h3 class="box-title">3) Choisir votre prestation :</h3>
 				<select id="listePrestation"  class="form-control" >
 				</select>
+				<h3 class="box-title">4) Choisir votre date :</h3>
+				<input type="text" class="datepick" />
 			</div>
 			<div class="col-md-9" >
 			<div id="calendar"></div>  
