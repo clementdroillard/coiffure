@@ -1,5 +1,9 @@
+let dateDebutSemaine;
+let dateFinSemaine;
+
+
 chargerListeSalon();
-let dateDebut;
+
 function chargerListeSalon()
 {
     //on vide la liste
@@ -65,7 +69,11 @@ function chargerListeCoiffeur()
             if(coiffeurs.length > 0)
             {
                 chargerEmploieDuTemps(); 
-            } 
+                $('#datetimepicker1').datetimepicker({
+                    locale: 'fr',
+                });
+            }
+            chargerEvenements(); 
                 
         }
         //les identifiants sont mauvais
@@ -118,8 +126,10 @@ function chargerEmploieDuTemps()
         allDaySlot: false,
         minTime: "06:00:00",
         maxTime: "20:00:00",
+        slotEventOverlap: false,
         viewRender: function (view, element) {
-            dateDebut = view.start._d;
+            dateDebutSemaine = view.start._d;
+            dateFinSemaine  = view.end._d;
             chargerEvenements();
         },
     });
@@ -128,11 +138,15 @@ function chargerEmploieDuTemps()
 
 function chargerEvenements()
 {
-    const idCoiffeur = document.getElementById("listeCoiffeur").value;
-    let events = chargerDisponibilite(idCoiffeur);
-    //$('#calendar').fullCalendar( 'removeEvents');
+    const idCoiffeur    = document.getElementById("listeCoiffeur").value;
+    let eventsDispo     = chargerDisponibilite(idCoiffeur);
+    let eventsIndispo   = chargerInsponibilite(idCoiffeur);
+    let eventRDV        = chargerRDV(idCoiffeur);
+    $('#calendar').fullCalendar( 'removeEvents');
 
-    $('#calendar').fullCalendar( 'renderEvents', events );
+    $('#calendar').fullCalendar( 'renderEvents', eventsDispo );
+    $('#calendar').fullCalendar( 'renderEvents', eventsIndispo );
+    $('#calendar').fullCalendar( 'renderEvents', eventRDV );
 }
 
 function dateToString(date)
@@ -155,24 +169,64 @@ function dateToString(date)
 function chargerDisponibilite(idCoiffeur)
 {
     var events = [];
-
-    for (var i = 1; i < 8; i++) {
-        //on envoie la requete de connexion
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", api+"disponibilite/coiffeur/"+idCoiffeur+"/jour/"+i, false);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send(null);
-        if (xhr.status === 200) {
-            const disponibilites = JSON.parse(xhr.responseText);
-            disponibilites.forEach(function(disponibilite) {
-                    let event ={id: disponibilite.id , title: 'Dispo', start: dateToString(dateDebut)+" "+disponibilite.heureDebut, 
-                    end: dateToString(dateDebut)+" "+disponibilite.heureFin};
-                    events.push(event); 
-                    console.log(event);
-                });
-        }
-        xhr.abort();
-        dateDebut.setDate(dateDebut.getDate()+1);
+    //on envoie la requete de connexion
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", api+"disponibilite/coiffeur/"+idCoiffeur, false);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    if (xhr.status === 200 ) {
+        const disponibilites = JSON.parse(xhr.responseText);
+        disponibilites.forEach(function(disponibilite) {
+                let dateDebutSemaineDisponibilite = new Date(dateDebutSemaine);
+                dateDebutSemaineDisponibilite.setDate(dateDebutSemaineDisponibilite.getDate()+disponibilite.jourSemaine-1);
+                const event ={id: disponibilite.id , title: 'Dispo', start: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureDebut, 
+                end: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureFin};
+                events.push(event); 
+                console.log(event);
+            });
     }
+    
+    return events
+}
+
+function chargerInsponibilite(idCoiffeur)
+{
+    var events = [];
+    //on envoie la requete de connexion
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", api+"indisponibilite/coiffeur/"+idCoiffeur+"/"+dateToString(dateDebutSemaine)+"/"+dateToString(dateFinSemaine), false);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    if (xhr.status === 200 ) {
+        const indisponibilites = JSON.parse(xhr.responseText);
+        indisponibilites.forEach(function(indisponibilite) {
+                const event ={id: indisponibilite.id , title: 'Indispo', start: indisponibilite.dateDebut, 
+                end: indisponibilite.dateFin, backgroundColor: '#FF0000'};
+                events.push(event); 
+                console.log(event);
+            });
+    }
+    
+    return events
+}
+
+function chargerRDV(idCoiffeur)
+{
+    var events = [];
+    //on envoie la requete de connexion
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", api+"rdv/coiffeur/"+idCoiffeur+"/"+dateToString(dateDebutSemaine)+"/"+dateToString(dateFinSemaine), false);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    if (xhr.status === 200 ) {
+        const rdvs = JSON.parse(xhr.responseText);
+        rdvs.forEach(function(rdv) {
+                const event ={id: rdv.id , title: 'Indispo', start: rdv.dateDebut, 
+                end: rdv.dateFin, backgroundColor: '#FF0000'};
+                events.push(event); 
+                console.log(event);
+            });
+    }
+    
     return events
 }

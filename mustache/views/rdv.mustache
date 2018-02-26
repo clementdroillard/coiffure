@@ -9,7 +9,7 @@
 		  			<strong>Erreur de connexion !</strong> 
 				</div>
 				<h3 class="box-title">1) Choisir votre salon :</h3>
-		    	<select id="listeSalon" onchange="chargerListeCoiffeur();chargerListeprestation()" class="form-control" >
+		    	<select id="listeSalon" onchange="chargerListeCoiffeur();chargerListeprestation();" class="form-control" >
 				</select>
 				<h3 class="box-title">2) Choisir votre coiffeur :</h3>
 				<select id="listeCoiffeur" onchange="chargerEvenements()"  class="form-control" >
@@ -17,8 +17,13 @@
 				<h3 class="box-title">3) Choisir votre prestation :</h3>
 				<select id="listePrestation"  class="form-control" >
 				</select>
-				<h3 class="box-title">4) Choisir votre date :</h3>
-				<input type="text" class="datepick" />
+				<h3 class="box-title">4) Choisir votre date/heure :</h3>
+				<div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
 			</div>
 			<div class="col-md-9" >
 			<div id="calendar"></div>  
@@ -27,6 +32,7 @@
 		 
     </section>
 </div>
+
 <script>
   const clientId = {{ idClient }};
   const api = '{{ api }}';
