@@ -8,6 +8,12 @@
 		    	<div class="alert alert-danger" style="display:none;" id="info" >
 		  			<strong>Erreur de connexion !</strong> 
 				</div>
+				<div class="alert alert-danger" style="display:none;" id="infoRdvKO" >
+		  			<strong>Veuillez choisir un crénau libre</strong> 
+				</div>
+				<div class="alert alert-success" style="display:none;" id="infoRdvOK" >
+		  			<strong>Le RDV est pris</strong> 
+				</div>
 				<h3 class="box-title">1) Choisir votre salon :</h3>
 		    	<select id="listeSalon" onchange="chargerListeCoiffeur();chargerListeprestation();" class="form-control" >
 				</select>
@@ -23,7 +29,8 @@
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
-                </div>
+                </div><br />
+                <center><input  style="font-size: x-large;" class="btn  btn-primary btn-lg" type="submit" onclick="postRdv();" value="Prendre RDV" /></center>
 			</div>
 			<div class="col-md-9" >
 			<div id="calendar"></div>  

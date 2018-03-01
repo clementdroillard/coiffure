@@ -70,6 +70,7 @@ function chargerListeCoiffeur()
             {
                 chargerEmploieDuTemps(); 
                 $('#datetimepicker1').datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm',
                     locale: 'fr',
                 });
             }
@@ -104,7 +105,7 @@ function chargerListeprestation()
             const prestations = JSON.parse(xhr.responseText);
             prestations.forEach(function(prestation) {
                 let option = document.createElement("option");
-                option.text = prestation.libelle;
+                option.text = "'"+prestation.libelle+ "' Durée : " +prestation.duree + " Prix: "+ prestation.prix+"€";
                 option.value = prestation.id;
                 listePrestation.add(option);
             });    
@@ -229,4 +230,39 @@ function chargerRDV(idCoiffeur)
     }
     
     return events
+}
+
+function postRdv(){
+    //on enleve les alerts
+    document.getElementById("infoRdvOK").style.display = "none" ;
+    document.getElementById("infoRdvKO").style.display = "none" ;
+    document.getElementById("info").style.display = "none" ;
+
+    //recupère les infos a eenvoyer
+    dateDebut = $("#datetimepicker1").find("input").val()+':00';
+    coiffeur_id = document.getElementById("listeCoiffeur").value;
+    prestation_id = document.getElementById("listePrestation").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", api+"rdv/client", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("dateDebut="+dateDebut+"&coiffeur_id="+coiffeur_id+"&prestation_id="+prestation_id+"&client_id="+clientId);
+    //lorsque la requete a réussi
+    xhr.onreadystatechange = function() {
+        //les renseignements du rdv sont bon
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            document.getElementById("infoRdvOK").style.display = "" ;
+        }
+        //les renseignements sont mauvais
+        if ( xhr.readyState == 4 && xhr.status == 400 ) {
+            document.getElementById("infoRdvKO").style.display = "" ;
+        }
+        //erreur 404
+        if ( xhr.readyState == 4 && xhr.status == 404 ) {
+            document.getElementById("info").style.display = "" ;
+        }
+        if(xhr.readyState == 4){
+            //quand on la repnse on recharge les rdv
+            chargerEvenements(); 
+        }
+    };
 }
