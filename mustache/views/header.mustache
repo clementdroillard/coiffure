@@ -55,7 +55,7 @@
                         <ul class="nav navbar-nav">
                             <li class="dropdown messages-menu">
                                 <a href="#" class="dropdown-toggle" >
-                                    <font color="white" size="6" ><b>Bonjour,  {{prenomClient}}</b></font>
+                                    <font color="white" size="6" ><b>Bonjour,  {{prenomClient}}{{libelleSalon}}</b></font>
                                 </a>
                             </li>
                             <li class="dropdown messages-menu">
@@ -73,8 +73,19 @@
                 <section class="sidebar">
                     <ul class="sidebar-menu">
                         <li class="header">MENU</li>
-                        <li><a href="client.php"><i class="fa fa-home"></i> <span>Accueil</span></a></li>
-                        <li><a href="rdv.php"><i class="fa fa-calendar"></i> <span>Prendre rdv</span></a></li>
+                         {{#prenomClient}}
+                            <li><a href="client.php"><i class="fa fa-home"></i> <span>Accueil</span></a></li>
+                            <li><a href="rdvClient.php"><i class="fa fa-calendar"></i> <span>Prendre rdv</span></a></li>
+                        {{/prenomClient}}
+                        {{#libelleSalon}}
+                            <li><a href="salon.php"><i class="fa fa-home"></i> <span>Accueil</span></a></li>
+                            <li><a href="rdvSalon.php"><i class="fa fa-calendar"></i> <span>Prendre rdv</span></a></li>
+                            <li><a href="coiffeurs.php"><i class="fa fa-cut"></i> <span>Gestion des coiffeurs</span></a></li>
+                            <li><a href="horaires.php"><i class="fa fa-clock-o"></i> <span>Gestion des horaires</span></a></li>
+                            <li><a href="indisponibilites.php"><i class="fa fa-calendar-times-o"></i> <span>Gestion des indisponibilités</span></a></li>
+                            <li><a href="prestations.php"><i class="fa fa-usd"></i> <span>Gestion des prestations</span></a></li>
+                            <li><a href="clientSalon.php"><i class="fa fa-address-book"></i> <span>Gestion des clients</span></a></li>
+                        {{/libelleSalon}}
                     </ul>
                 </section>
             </aside>
