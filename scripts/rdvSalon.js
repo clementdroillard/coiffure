@@ -6,21 +6,18 @@ chargerListeClient();
 chargerListeCoiffeur();
 chargerListeprestation();
 
+//fonction de chargement de la liste des client
 function chargerListeClient()
 {
     //on vide la liste
     document.getElementById("listeClient").innerHTML = "";
     const listeClient = document.getElementById("listeClient");
     document.getElementById("info").style.display = "none" ;
-
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"clients/salon/"+salonId, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {
             const clients = JSON.parse(xhr.responseText);
             clients.forEach(function(client) {
@@ -30,29 +27,24 @@ function chargerListeClient()
                 listeClient.add(option);
             });     
         }
-        //les identifiants sont mauvais
         if ( xhr.status == 404) {
             document.getElementById("info").style.display = "" ;
         }
     };
 }
 
-
+//fonction de chargement de la liste des coiffeurs
 function chargerListeCoiffeur()
 {
     //on vide la liste
     document.getElementById("listeCoiffeur").innerHTML = "";
     const listeCoiffeur = document.getElementById("listeCoiffeur");
     document.getElementById("info").style.display = "none" ;
-
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"coiffeur/salon/"+salonId, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {
 
             const coiffeurs = JSON.parse(xhr.responseText);
@@ -64,12 +56,14 @@ function chargerListeCoiffeur()
             });   
             if(coiffeurs.length > 0)
             {
+                //on charge l'eploie du temps et le time picker
                 chargerEmploieDuTemps(); 
                 $('#datetimepicker1').datetimepicker({
                     format: 'YYYY-MM-DD HH:mm',
                     locale: 'fr',
                 });
             }
+            //on charge les evenements
             chargerEvenements();               
         }
         if (xhr.status == 404) {
@@ -78,21 +72,18 @@ function chargerListeCoiffeur()
     };
 }
 
+//fonction de chargement de la liste des prestations
 function chargerListeprestation()
 {
     //on vide la liste
     document.getElementById("listePrestation").innerHTML = "";
     const listePrestation = document.getElementById("listePrestation");
     document.getElementById("info").style.display = "none" ;
-
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"prestation/salon/"+salonId, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {
 
             const prestations = JSON.parse(xhr.responseText);
@@ -103,14 +94,13 @@ function chargerListeprestation()
                 listePrestation.add(option);
             });    
         }
-        //les identifiants sont mauvais
         if ( xhr.status == 404) {
             document.getElementById("info").style.display = "" ;
         }
     };
 }
 
-
+//fonction de chargement de chargement de l'emploie du temps
 function chargerEmploieDuTemps()
 {
      $('#calendar').fullCalendar({
@@ -130,6 +120,8 @@ function chargerEmploieDuTemps()
     
 }
 
+
+//fonction de chargement de la liste des evenements
 function chargerEvenements()
 {
     const idCoiffeur    = document.getElementById("listeCoiffeur").value;
@@ -143,6 +135,7 @@ function chargerEvenements()
     $('#calendar').fullCalendar( 'renderEvents', eventRDV );
 }
 
+//fonction qui renvoie une date au format des date des evenements
 function dateToString(date)
 {
     const year = date.getFullYear()+"";
@@ -159,11 +152,10 @@ function dateToString(date)
     return year+"-"+month+"-"+day;
 }
 
-
+//fonction de chargement des disponibilites
 function chargerDisponibilite(idCoiffeur)
 {
     var events = [];
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"disponibilite/coiffeur/"+idCoiffeur, false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -183,10 +175,10 @@ function chargerDisponibilite(idCoiffeur)
     return events
 }
 
+//fonction de chargement des indisponibilites
 function chargerInsponibilite(idCoiffeur)
 {
     var events = [];
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"indisponibilite/coiffeur/"+idCoiffeur+"/"+dateToString(dateDebutSemaine)+"/"+dateToString(dateFinSemaine), false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -204,10 +196,10 @@ function chargerInsponibilite(idCoiffeur)
     return events
 }
 
+//fonction de chargement des rdv
 function chargerRDV(idCoiffeur)
 {
     var events = [];
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"rdv/coiffeur/"+idCoiffeur+"/"+dateToString(dateDebutSemaine)+"/"+dateToString(dateFinSemaine), false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -225,13 +217,14 @@ function chargerRDV(idCoiffeur)
     return events
 }
 
+//fonction d'ajout d'un rdv
 function postRdv(){
     //on enleve les alerts
     document.getElementById("infoRdvOK").style.display = "none" ;
     document.getElementById("infoRdvKO").style.display = "none" ;
     document.getElementById("info").style.display = "none" ;
 
-    //recupère les infos a eenvoyer
+    //recupère les infos a envoyer
     dateDebut = $("#datetimepicker1").find("input").val()+':00';
     coiffeur_id = document.getElementById("listeCoiffeur").value;
     prestation_id = document.getElementById("listePrestation").value;

@@ -1,5 +1,5 @@
 
-
+//fonction de chargeent du time picker
 function chargerTimePicker(){
     $('#datetimepicker1').datetimepicker({
         format: 'HH:mm',
@@ -7,6 +7,7 @@ function chargerTimePicker(){
     });
 }
 
+//fonction de control de saisie
 function ajoutPrestation(){
     document.getElementById("info").style.display = "none" ;
     const libelleTaille = verifChamp(document.getElementById("libelle"));
@@ -21,6 +22,7 @@ function ajoutPrestation(){
     }
 }
 
+//fonction d'ajout de prestation
 function postPrestation(){
     document.getElementById("infoOk").style.display = "none" ;
     const libelle = document.getElementById("libelle").value;

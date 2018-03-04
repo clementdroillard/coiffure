@@ -4,21 +4,18 @@ let dateFinSemaine;
 
 chargerListeSalon();
 
+//fonction de chargement de la liste des salons
 function chargerListeSalon()
 {
     //on vide la liste
     document.getElementById("listeSalon").innerHTML = "";
     const listeSalon = document.getElementById("listeSalon");
     document.getElementById("info").style.display = "none" ;
-
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"salons/client/"+clientId, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {
             const salons = JSON.parse(xhr.responseText);
             salons.forEach(function(salon) {
@@ -33,7 +30,6 @@ function chargerListeSalon()
                 chargerListeprestation();
             }       
         }
-        //les identifiants sont mauvais
         if ( xhr.status == 404) {
             document.getElementById("info").style.display = "" ;
         }
@@ -41,6 +37,7 @@ function chargerListeSalon()
 }
 
 
+//fonction de chargement de la liste des coiffeurs
 function chargerListeCoiffeur()
 {
     //on vide la liste
@@ -48,15 +45,11 @@ function chargerListeCoiffeur()
     const listeCoiffeur = document.getElementById("listeCoiffeur");
     const idSalon = document.getElementById("listeSalon").value;
     document.getElementById("info").style.display = "none" ;
-
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"coiffeur/salon/"+idSalon, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {
 
             const coiffeurs = JSON.parse(xhr.responseText);
@@ -77,29 +70,24 @@ function chargerListeCoiffeur()
             chargerEvenements(); 
                 
         }
-        //les identifiants sont mauvais
         if (xhr.status == 404) {
             document.getElementById("info").style.display = "" ;
         }
     };
 }
 
+//fonction de chargement de la liste des prestations
 function chargerListeprestation()
 {
-    //on vide la liste
     document.getElementById("listePrestation").innerHTML = "";
     const listePrestation = document.getElementById("listePrestation");
     const idSalon = document.getElementById("listeSalon").value;
     document.getElementById("info").style.display = "none" ;
-
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"prestation/salon/"+idSalon, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {
 
             const prestations = JSON.parse(xhr.responseText);
@@ -110,14 +98,13 @@ function chargerListeprestation()
                 listePrestation.add(option);
             });    
         }
-        //les identifiants sont mauvais
         if ( xhr.status == 404) {
             document.getElementById("info").style.display = "" ;
         }
     };
 }
 
-
+//fonction de chargement de l'emploie du temps
 function chargerEmploieDuTemps()
 {
      $('#calendar').fullCalendar({
@@ -137,6 +124,7 @@ function chargerEmploieDuTemps()
     
 }
 
+//fonction de chargement des evenements
 function chargerEvenements()
 {
     const idCoiffeur    = document.getElementById("listeCoiffeur").value;
@@ -150,6 +138,7 @@ function chargerEvenements()
     $('#calendar').fullCalendar( 'renderEvents', eventRDV );
 }
 
+//fonction convertion de format date
 function dateToString(date)
 {
     const year = date.getFullYear()+"";
@@ -166,11 +155,10 @@ function dateToString(date)
     return year+"-"+month+"-"+day;
 }
 
-
+//fonction de chargement des disponibilites
 function chargerDisponibilite(idCoiffeur)
 {
     var events = [];
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"disponibilite/coiffeur/"+idCoiffeur, false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -190,6 +178,7 @@ function chargerDisponibilite(idCoiffeur)
     return events
 }
 
+//fonction de chargement des indisponibilites
 function chargerInsponibilite(idCoiffeur)
 {
     var events = [];
@@ -211,6 +200,7 @@ function chargerInsponibilite(idCoiffeur)
     return events
 }
 
+//fonction de chargement des rdv
 function chargerRDV(idCoiffeur)
 {
     var events = [];
@@ -233,13 +223,14 @@ function chargerRDV(idCoiffeur)
     return events
 }
 
+//fonction d'ajout d'un rdv
 function postRdv(){
     //on enleve les alerts
     document.getElementById("infoRdvOK").style.display = "none" ;
     document.getElementById("infoRdvKO").style.display = "none" ;
     document.getElementById("info").style.display = "none" ;
 
-    //recupère les infos a eenvoyer
+    //recupère les infos a envoyer
     dateDebut = $("#datetimepicker1").find("input").val()+':00';
     coiffeur_id = document.getElementById("listeCoiffeur").value;
     prestation_id = document.getElementById("listePrestation").value;
@@ -247,7 +238,6 @@ function postRdv(){
     xhr.open("POST", api+"rdv/client", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("dateDebut="+dateDebut+"&coiffeur_id="+coiffeur_id+"&prestation_id="+prestation_id+"&client_id="+clientId);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
         //les renseignements du rdv sont bon
         if (xhr.readyState == 4 && xhr.status == 200) {

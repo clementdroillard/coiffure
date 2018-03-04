@@ -1,4 +1,4 @@
-
+//fonction de controle de saisie
 function inscription(){
     document.getElementById("info").style.display = "none" ;
     const libelleTaille = verifChamp(document.getElementById("libelle"));
@@ -16,6 +16,7 @@ function inscription(){
     }
 }
 
+//fonction d'ajout de l'inscription
 function inscriptionPost(){
     document.getElementById("infoInscription").style.display = "none" ;
     const libelle = document.getElementById("libelle").value;
@@ -24,21 +25,17 @@ function inscriptionPost(){
     const adresse = document.getElementById("adresse").value;
     const nomDeCompte = document.getElementById("nomDeCompte").value;
     const motDePasse = document.getElementById("motDePasse").value;
-
-    //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("POST", api+"salon", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("libelle="+libelle+"&CP="+CP+"&ville="+ville+"&adresse="+adresse+"&nomDeCompte="+nomDeCompte+"&motDePasse="+motDePasse);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //le mail est ok
         if (xhr.readyState == 4 && xhr.status == 200) {
             const salon = xhr.responseText;
             document.getElementById("salonValue").value = salon;
             document.getElementById("postSalon").submit();
         }
-        //le mail est mauvais
+        //le nom de compte existe deja
         if (xhr.readyState == 4 && xhr.status == 400) {
             document.getElementById("infoInscription").style.display = "" ;
         }

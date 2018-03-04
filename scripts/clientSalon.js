@@ -1,4 +1,5 @@
 
+//fonction de control de saisie
 function ajoutClient(){
     document.getElementById("info").style.display = "none" ;
     const mailOK = verifMail(document.getElementById("mail"));
@@ -11,6 +12,7 @@ function ajoutClient(){
     }
 }
 
+//fonction d'ajout d'un client
 function postClient(){
     document.getElementById("infoOk").style.display = "none" ;
     document.getElementById("info").style.display = "none" ;
@@ -22,7 +24,7 @@ function postClient(){
     xhr.open("POST", api+"salonClient/salon/"+mail, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("salon_id="+salonId);
-    //lorsque la requete a réussi
+
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             document.getElementById("infoOk").style.display = "" ;

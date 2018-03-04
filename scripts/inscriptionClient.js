@@ -1,3 +1,4 @@
+//fonction de controle de saisie de l'inscription d'un client
 function inscription(){
     document.getElementById("info").style.display = "none" ;
     const mailOk = verifMail(document.getElementById("adresseMail"));
@@ -14,6 +15,7 @@ function inscription(){
     }
 }
 
+//fonction d'ajout de l'inscription d'un client
 function inscriptionPost(){
     document.getElementById("infoInscription").style.display = "none" ;
     const nom = document.getElementById("nom").value;
@@ -26,7 +28,6 @@ function inscriptionPost(){
     xhr.open("POST", api+"client", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("adresseMail="+email+"&motDePasse="+pass+"&nom="+nom+"&prenom="+prenom);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
         //le mail est ok
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -34,13 +35,14 @@ function inscriptionPost(){
             document.getElementById("clientValue").value = client;
             document.getElementById("postClient").submit();
         }
-        //le mail est mauvais
+        //le mail est existant
         if (xhr.readyState == 4 && xhr.status == 400) {
             document.getElementById("infoInscription").style.display = "" ;
         }
     };
 }
 
+//fonction de controle de saisie de l'inscription depuis un compte salon
 function inscriptionForSalon(){
     document.getElementById("info").style.display = "none" ;
     const mailOk = verifMail(document.getElementById("adresseMail"));
@@ -57,6 +59,8 @@ function inscriptionForSalon(){
     }
 }
 
+
+//fonction d'ajout de l'inscription d'un client depuis un compte salon
 function inscriptionPostForSalon(){
     document.getElementById("infoInscription").style.display = "none" ;
     document.getElementById("infoOK").style.display = "none" ;
@@ -70,19 +74,16 @@ function inscriptionPostForSalon(){
     xhr.open("POST", api+"client", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("adresseMail="+email+"&motDePasse="+pass+"&nom="+nom+"&prenom="+prenom);
-    //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
-        //le mail est ok
         if (xhr.readyState == 4 && xhr.status == 200) {
+            //on ajoute le client aux clients du salon
             const client = JSON.parse(xhr.responseText);
-                //on envoie la requete de connexion
             let xhr2 = new XMLHttpRequest();
             xhr2.open("POST", api+"salonClient/", true);
             xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr2.send("salon_id="+salonId+"&client_id="+client.id+"&validate=1&code=1");
             document.getElementById("infoOK").style.display = "" ;
         }
-        //le mail est mauvais
         if (xhr.readyState == 4 && xhr.status == 400) {
             document.getElementById("infoInscription").style.display = "" ;
         }
