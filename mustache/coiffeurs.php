@@ -15,7 +15,7 @@
 	));
 	
 	//affichage de notre vue 
- 	echo $m->render('salon' ,array('libelleSalon'=>$_SESSION['libelle'],'nomDeCompteSalon'=>$_SESSION['nomDeCompte'],'idSalon'=>$_SESSION['id'],'api'=>$api));
+ 	echo $m->render('coiffeur' ,array('libelleSalon'=>$_SESSION['libelle'],'nomDeCompteSalon'=>$_SESSION['nomDeCompte'],'idSalon'=>$_SESSION['id'],'api'=>$api));
 
  ?>
 

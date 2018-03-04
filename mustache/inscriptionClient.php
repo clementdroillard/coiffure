@@ -13,6 +13,13 @@
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
 	//affichage de notre vue 
- 	echo $m->render('inscriptionClient' ,array("api"=>$api));
-
+	if(isset($_SESSION['nomDeCompte']))
+	{
+		echo $m->render('inscriptionClient' ,array('libelleSalon'=>$_SESSION['libelle'],'nomDeCompteSalon'=>$_SESSION['nomDeCompte'],'idSalon'=>$_SESSION['id'],'api'=>$api));
+	}
+	else
+	{
+		echo $m->render('inscriptionClient' ,array("api"=>$api));
+	}
+ 	
  ?>

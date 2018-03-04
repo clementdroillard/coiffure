@@ -8,6 +8,10 @@
  	{
  		header('Location: client.php');
  	}
+ 	if(isset($_SESSION['nomDeCompte']))
+ 	{
+ 		header('Location: salon.php');
+ 	}
 
 	$m = new Mustache_Engine(array(
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),

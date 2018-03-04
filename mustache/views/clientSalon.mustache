@@ -1,0 +1,36 @@
+
+{{> header}}
+
+<div class="content-wrapper">
+    <section class="content">
+	    <div class="row">
+	        <div class="col-md-4 ">
+		    	<center><h1>Ajouter un client déjà inscrit : </h1></center>
+		    	<div class="alert alert-danger" style="display:none;" id="info">
+  					Veuillez saisir une adresse mail correct, d'une personne inscrite !
+				</div>
+				<div class="alert alert-success" style="display:none;" id="infoOk">
+  					Client ajouté !
+				</div>
+				<div class="alert alert-warning" style="display:none;" id="clientInfo">
+  					Cette personne est déjà votre client !
+				</div>
+		        <h3 class="box-title">Adresse mail :</h3>
+		        <input class="form-control" type="text" id="mail" onblur="verifMail(this)" /><br />
+		        <center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="ajoutClient();" value="Ajouter" /></center>
+			</div>
+			<div class="col-md-8 ">
+				<h1>Liste des clients : </h1>
+			</div>
+		</div>	 
+		
+    </section>
+</div>
+
+<script>
+  const salonId = {{ idSalon }};
+  const api = '{{ api }}';
+</script>
+<script src="../scripts/controleForm.js"></script>
+<script src="../scripts/clientSalon.js"></script>
+{{> footer}}

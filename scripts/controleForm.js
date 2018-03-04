@@ -49,3 +49,18 @@ function verifChampCP(champ)
       return true;
    }
 }
+
+function verifNombre(champ)
+{
+   var nombre = parseInt(champ.value);
+   if(isNaN(nombre) || champ.value.length > 190 )
+   {
+      surligne(champ, true);
+      return false;
+   }
+   else
+   {
+      surligne(champ, false);
+      return true;
+   }
+}

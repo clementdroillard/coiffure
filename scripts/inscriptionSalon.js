@@ -1,12 +1,12 @@
 
 function inscription(){
     document.getElementById("info").style.display = "none" ;
-    var libelleTaille = verifChamp(document.getElementById("libelle"));
-    var CPTaille  = verifChampCP(document.getElementById("CP"));
-    var villeTaille  = verifChamp(document.getElementById("ville"));
-    var adresseTaille  = verifChamp(document.getElementById("adresse"));
-    var nomDeCompteTaille  = verifChamp(document.getElementById("nomDeCompte"));
-    var motDePasseTaille  = verifChamp(document.getElementById("motDePasse"));
+    const libelleTaille = verifChamp(document.getElementById("libelle"));
+    const CPTaille  = verifChampCP(document.getElementById("CP"));
+    const villeTaille  = verifChamp(document.getElementById("ville"));
+    const adresseTaille  = verifChamp(document.getElementById("adresse"));
+    const nomDeCompteTaille  = verifChamp(document.getElementById("nomDeCompte"));
+    const motDePasseTaille  = verifChamp(document.getElementById("motDePasse"));
    
     if(libelleTaille && CPTaille && villeTaille && adresseTaille && nomDeCompteTaille && motDePasseTaille)
         inscriptionPost();

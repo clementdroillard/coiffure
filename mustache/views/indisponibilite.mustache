@@ -1,0 +1,48 @@
+
+{{> header}}
+
+<div class="content-wrapper">
+    <section class="content">
+	    <div class="row">
+	        <div class="col-md-4 ">
+		    	<h1>Ajouter une indisponibilité : </h1>
+		    	<div class="alert alert-danger" style="display:none;" id="info">
+  					Veuillez renseigner une date de début et de fin !
+				</div>
+				<div class="alert alert-success" style="display:none;" id="infoOk">
+  					Indisponibilité enregistré !
+				</div>
+		        <h3 class="box-title">Coiffeur :</h3>
+		        <select id="listeCoiffeur" class="form-control" >
+				</select>
+		        <h3 class="box-title">Date début :</h3>
+		        <div class='input-group date' id='datetimepicker1' onmousedown="chargerTimePicker()">
+                    <input type='text' id="debut" class="form-control" onblur="verifChamp(this)" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <h3 class="box-title">Date fin :</h3>
+                <div class='input-group date' id='datetimepicker2' onmousedown="chargerTimePicker()">
+                    <input type='text' id="fin" class="form-control" onblur="verifChamp(this)" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div> 
+		        <center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="ajoutIndispo();" value="Ajouter" /></center>
+			</div>
+			<div class="col-md-8 ">
+				<h1>Liste des indisponibilités : </h1>
+			</div>
+		</div>	 
+		
+    </section>
+</div>
+
+<script>
+  const salonId = {{ idSalon }};
+  const api = '{{ api }}';
+</script>
+<script src="../scripts/controleForm.js"></script>
+<script src="../scripts/indisponibilite.js"></script>
+{{> footer}}

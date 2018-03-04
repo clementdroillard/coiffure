@@ -1,13 +1,22 @@
-{{> headerNoCo}}
+{{#libelleSalon}}
+	{{> header}}
+{{/libelleSalon}}
+{{^libelleSalon}}
+	{{> headerNoCo}}
+{{/libelleSalon}}
+
 <div class="content-wrapper">
     <section class="content">
     	<h1>Inscription Client : </h1>
         <div class="col-md-offset-3 ">
 			<div class="alert alert-danger" style="display:none;" id="info">
-  			Veuillez saisir entre 3 et 190 caractère dans chaque champ et un mail correct !
+  			Veuillez saisir entre 3 et 190 caractères dans chaque champ et un mail correct !
 			</div>
 			<div class="alert alert-danger" style="display:none;" id="infoInscription">
   			Ce mail existe déjà ! 
+			</div>
+			<div class="alert alert-success" style="display:none;" id="infoOK">
+  				Inscription faite et ajouter a votre portefeuille de client !
 			</div>
 	        <h3 class="box-title">Nom :</h3>
 	        <input class="form-control" type="text" id="nom" onblur="verifChamp(this)" /><br />
@@ -17,16 +26,24 @@
 	        <input class="form-control" type="mail" id="adresseMail" onblur="verifMail(this)" /><br />
 	        <h3 class="box-title"> Mot de passe :</h3> 
 	        <input class="form-control" type="password" id="motDePasse" onblur="verifChamp(this)"  /><br />
-	        <center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="inscription();" value="Inscription" /></center>
-		    <form method="POST" action="client.php" id="postClient">
-				<input type="hidden" id="clientValue" name="client" />
-			</form>
+			{{#libelleSalon}}
+				<center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="inscriptionForSalon();" value="Inscription" /></center>
+			{{/libelleSalon}}
+			{{^libelleSalon}}
+				<center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="inscription();" value="Inscription" /></center>
+		    	<form method="POST" action="client.php" id="postClient">
+					<input type="hidden" id="clientValue" name="client" />
+				</form>
+			{{/libelleSalon}}
 		</div>
 	</section>
 </div>
 <script>
+	{{#libelleSalon}}
+		const salonId = {{ idSalon }};
+	{{/libelleSalon}}
 	const api = '{{ api }}';
 </script>
-<script src="../scripts/inscription.js"></script>
+<script src="../scripts/controleForm.js"></script>
 <script src="../scripts/inscriptionClient.js"></script>
 	{{> footer}}

@@ -15,7 +15,7 @@
 	));
 
 	//affichage de notre vue 
- 	echo $m->render('rdv' ,array('prenomClient'=>$_SESSION['prenom'],'nomClient'=>$_SESSION['nom'],'mailClient'=>$_SESSION['mail'],'idClient'=>$_SESSION['id'],'api'=>$api));
+ 	echo $m->render('rdvClient' ,array('prenomClient'=>$_SESSION['prenom'],'nomClient'=>$_SESSION['nom'],'mailClient'=>$_SESSION['mail'],'idClient'=>$_SESSION['id'],'api'=>$api));
 
  ?>
 

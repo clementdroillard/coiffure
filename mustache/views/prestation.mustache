@@ -1,0 +1,42 @@
+
+{{> header}}
+
+<div class="content-wrapper">
+    <section class="content">
+	    <div class="row">
+	        <div class="col-md-4 ">
+		    	<h1>Ajouter une prestation: </h1>
+		    	<div class="alert alert-danger" style="display:none;" id="info">
+  					Veuillez saisir entre 3 et 190 caractères dans chaque champ et un nombre pour le prix !
+				</div>
+				<div class="alert alert-success" style="display:none;" id="infoOk">
+  					Prestation enregistrée !
+				</div>
+		        <h3 class="box-title">Nom prestation:</h3>
+		        <input class="form-control" type="text" id="libelle" onblur="verifChamp(this)" />
+		        <h3 class="box-title"> Prix :</h3> 
+		        <input class="form-control" type="number" id="prix" onblur="verifNombre(this)" />
+		        <h3 class="box-title"> Durée :</h3> 
+		        <div class='input-group date' id='datetimepicker1' onmousedown="chargerTimePicker()">
+                    <input type='text' id="duree" class="form-control" value="00:00" onblur="verifChamp(this)" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+		        <center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="ajoutPrestation();" value="Ajouter" /></center>
+			</div>
+			<div class="col-md-8 ">
+				<h1>Liste des prestations: </h1>
+			</div>
+		</div>	 
+		
+    </section>
+</div>
+
+<script>
+  const salonId = {{ idSalon }};
+  const api = '{{ api }}';
+</script>
+<script src="../scripts/controleForm.js"></script>
+<script src="../scripts/prestation.js"></script>
+{{> footer}}

@@ -1,0 +1,49 @@
+
+{{> header}}
+
+<div class="content-wrapper">
+    <section class="content">
+	    <div class="row">
+	        <div class="col-md-3 ">
+		    	<div class="alert alert-danger" style="display:none;" id="info" >
+		  			<strong>Erreur de connexion !</strong> 
+				</div>
+				<div class="alert alert-danger" style="display:none;" id="infoRdvKO" >
+		  			<strong>Veuillez choisir un crénau libre</strong> 
+				</div>
+				<div class="alert alert-success" style="display:none;" id="infoRdvOK" >
+		  			<strong>Le RDV est pris</strong> 
+				</div>
+				<h3 class="box-title">1) Choisir votre salon :</h3>
+		    	<select id="listeSalon" onchange="chargerListeCoiffeur();chargerListeprestation();" class="form-control" >
+				</select>
+				<h3 class="box-title">2) Choisir votre coiffeur :</h3>
+				<select id="listeCoiffeur" onchange="chargerEvenements()"  class="form-control" >
+				</select>
+				<h3 class="box-title">3) Choisir votre prestation :</h3>
+				<select id="listePrestation"  class="form-control" >
+				</select>
+				<h3 class="box-title">4) Choisir votre date/heure :</h3>
+				<div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div><br />
+                <center><input  style="font-size: x-large;" class="btn  btn-primary btn-lg" type="submit" onclick="postRdv();" value="Prendre RDV" /></center>
+			</div>
+			<div class="col-md-9" >
+			<div id="calendar"></div>  
+			</div>	
+		</div>	 
+		 
+    </section>
+</div>
+
+<script>
+  const clientId = {{ idClient }};
+  const api = '{{ api }}';
+</script>
+<script src="../scripts/rdvClient.js"></script>
+
+{{> footer}}
