@@ -55,7 +55,7 @@ function chargerListeCoiffeur()
             const coiffeurs = JSON.parse(xhr.responseText);
             coiffeurs.forEach(function(coiffeur) {
                 let option = document.createElement("option");
-                option.text = coiffeur.prenom+" "+coiffeur.nom;
+                option.text = coiffeur.prenom+" "+coiffeur.nom+" / Spécialité: "+coiffeur.specialite;
                 option.value = coiffeur.id;
                 listeCoiffeur.add(option);
             });   
@@ -171,7 +171,6 @@ function chargerDisponibilite(idCoiffeur)
                 const event ={id: disponibilite.id , title: 'Dispo', start: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureDebut, 
                 end: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureFin};
                 events.push(event); 
-                console.log(event);
             });
     }
     
@@ -193,7 +192,6 @@ function chargerInsponibilite(idCoiffeur)
                 const event ={id: indisponibilite.id , title: 'Indispo', start: indisponibilite.dateDebut, 
                 end: indisponibilite.dateFin, backgroundColor: '#FF0000'};
                 events.push(event); 
-                console.log(event);
             });
     }
     
@@ -216,7 +214,6 @@ function chargerRDV(idCoiffeur)
                 const event ={id: rdv.id , title: 'Indispo', start: rdv.dateDebut, 
                 end: rdv.dateFin, backgroundColor: '#FF0000'};
                 events.push(event); 
-                console.log(event);
             });
     }
     

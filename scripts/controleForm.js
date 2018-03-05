@@ -14,6 +14,22 @@ function verifMail(champ)
    }
 }
 
+//fonction de controle de saisie de telephone
+function verifTel(champ)
+{
+   var regex = /^[0-9]{10}/;
+   if(!regex.test(champ.value))
+   {
+      surligne(champ, true);
+      return false;
+   }
+   else
+   {
+      surligne(champ, false);
+      return true;
+   }
+}
+
 //fonction d'affichage de controle de saisie
 function surligne(champ, erreur)
 {

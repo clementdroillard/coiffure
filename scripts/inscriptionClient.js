@@ -6,8 +6,10 @@ function inscription(){
     const taillePrenom  = verifChamp(document.getElementById("prenom"));
     const tailleMail  = verifChamp(document.getElementById("adresseMail"));
     const tailleMotDePasse  = verifChamp(document.getElementById("motDePasse"));
+    const telOK = verifTel(document.getElementById("telephone"));
    
-    if(mailOk && tailleNom && taillePrenom && tailleMail && tailleMotDePasse)
+   
+    if(mailOk && tailleNom && taillePrenom && tailleMail && tailleMotDePasse && telOK)
         inscriptionPost();
     else
     {
@@ -22,12 +24,13 @@ function inscriptionPost(){
     const prenom = document.getElementById("prenom").value;
     const email = document.getElementById("adresseMail").value;
     const pass = document.getElementById("motDePasse").value;
+    const tel = document.getElementById("telephone").value;
 
     //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("POST", api+"client", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("adresseMail="+email+"&motDePasse="+pass+"&nom="+nom+"&prenom="+prenom);
+    xhr.send("adresseMail="+email+"&motDePasse="+pass+"&nom="+nom+"&prenom="+prenom+"&telephone="+tel);
     xhr.onreadystatechange = function() {
         //le mail est ok
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -50,8 +53,9 @@ function inscriptionForSalon(){
     const taillePrenom  = verifChamp(document.getElementById("prenom"));
     const tailleMail  = verifChamp(document.getElementById("adresseMail"));
     const tailleMotDePasse  = verifChamp(document.getElementById("motDePasse"));
+    const telOK = verifTel(document.getElementById("telephone"));
    
-    if(mailOk && tailleNom && taillePrenom && tailleMail && tailleMotDePasse)
+    if(mailOk && tailleNom && taillePrenom && tailleMail && tailleMotDePasse && telOK)
         inscriptionPostForSalon();
     else
     {
@@ -68,12 +72,13 @@ function inscriptionPostForSalon(){
     const prenom = document.getElementById("prenom").value;
     const email = document.getElementById("adresseMail").value;
     const pass = document.getElementById("motDePasse").value;
+    const tel = document.getElementById("telephone").value;
 
     //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("POST", api+"client", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("adresseMail="+email+"&motDePasse="+pass+"&nom="+nom+"&prenom="+prenom);
+    xhr.send("adresseMail="+email+"&motDePasse="+pass+"&nom="+nom+"&prenom="+prenom+"&telephone="+tel);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             //on ajoute le client aux clients du salon

@@ -50,7 +50,7 @@ function chargerListeCoiffeur()
             const coiffeurs = JSON.parse(xhr.responseText);
             coiffeurs.forEach(function(coiffeur) {
                 let option = document.createElement("option");
-                option.text = coiffeur.prenom+" "+coiffeur.nom;
+                option.text = coiffeur.prenom+" "+coiffeur.nom+" / Spécialité: "+coiffeur.specialite;
                 option.value = coiffeur.id;
                 listeCoiffeur.add(option);
             });   
@@ -116,8 +116,39 @@ function chargerEmploieDuTemps()
             dateFinSemaine  = view.end._d;
             chargerEvenements();
         },
-    });
-    
+        eventClick: function (event) {
+            if(event.title == 'RDV')
+            {
+                //on affiche les infos de l'evenement
+                alert(detailEvenement(event));
+            }
+        },
+    });  
+}
+
+//fonction qui retourne le détail d'un evenement
+function detailEvenement(event)
+{
+    let message = "Date \nDébut : "+moment(event.start).format('DD-MM-YYYY HH:mm')+" \nFin : ";
+    message     += moment(event.end).format('DD-MM-YYYY HH:mm')+" \n\n";
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", api+"client/"+event.clientId, false);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    if (xhr.status === 200 ) {
+        const client = JSON.parse(xhr.responseText);
+        message += "Client  \nNom: "+client.nom+" \nPrénom: "+client.prenom+" \nMail: "
+        message +=  client.adresseMail+" \nTéléphone: "+client.telephone+" \n\n";
+    }
+    let xhr1 = new XMLHttpRequest();
+    xhr1.open("GET", api+"prestation/"+event.prestationId, false);
+    xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr1.send(null);
+    if (xhr1.status === 200 ) {
+        const prestation = JSON.parse(xhr1.responseText);
+        message += "Prestation \nLibelle: "+prestation.libelle+" \nDurée: "+prestation.duree+" \nPrix: "+prestation.prix+"€ \n\n\n";
+    }
+    return message;
 }
 
 
@@ -168,7 +199,6 @@ function chargerDisponibilite(idCoiffeur)
                 const event ={id: disponibilite.id , title: 'Dispo', start: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureDebut, 
                 end: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureFin};
                 events.push(event); 
-                console.log(event);
             });
     }
     
@@ -189,7 +219,6 @@ function chargerInsponibilite(idCoiffeur)
                 const event ={id: indisponibilite.id , title: 'Indispo', start: indisponibilite.dateDebut, 
                 end: indisponibilite.dateFin, backgroundColor: '#FF0000'};
                 events.push(event); 
-                console.log(event);
             });
     }
     
@@ -207,10 +236,9 @@ function chargerRDV(idCoiffeur)
     if (xhr.status === 200 ) {
         const rdvs = JSON.parse(xhr.responseText);
         rdvs.forEach(function(rdv) {
-                const event ={id: rdv.id , title: 'RDV'+rdv.prestation_id, start: rdv.dateDebut, 
-                end: rdv.dateFin, backgroundColor: '#610B5E'};
+                const event ={id: rdv.id , title: 'RDV', start: rdv.dateDebut, 
+                end: rdv.dateFin, backgroundColor: '#610B5E' , clientId: rdv.client_id, prestationId: rdv.prestation_id};
                 events.push(event); 
-                console.log(event);
             });
     }
     

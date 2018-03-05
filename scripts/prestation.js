@@ -33,7 +33,7 @@ function postPrestation(){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", api+"prestation", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("libelle="+libelle+"&duree="+duree+"&prix="+prix+"&salon_id="+salonId);
+    xhr.send("libelle="+libelle+"&duree="+duree+"&prix="+prix+"&salon_id="+salonId+"&validate=1");
     //lorsque la requete a réussi
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {

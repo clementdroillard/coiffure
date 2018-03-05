@@ -10,7 +10,7 @@
     	<h1>Inscription Client : </h1>
         <div class="col-md-offset-3 ">
 			<div class="alert alert-danger" style="display:none;" id="info">
-  			Veuillez saisir entre 3 et 190 caractères dans chaque champ et un mail correct !
+  			Veuillez saisir entre 3 et 190 caractères dans chaque champ, un telephone et un mail correct !
 			</div>
 			<div class="alert alert-danger" style="display:none;" id="infoInscription">
   			Ce mail existe déjà ! 
@@ -22,6 +22,8 @@
 	        <input class="form-control" type="text" id="nom" onblur="verifChamp(this)" /><br />
 	        <h3 class="box-title">Prenom :</h3> 
 	        <input class="form-control" type="text" id="prenom" onblur="verifChamp(this)" /><br />
+	        <h3 class="box-title">Téléphone :</h3> 
+	        <input class="form-control" type="tel" id="telephone" onblur="verifTel(this)" /><br />
 	        <h3 class="box-title">Adresse Mail :</h3>
 	        <input class="form-control" type="mail" id="adresseMail" onblur="verifMail(this)" /><br />
 	        <h3 class="box-title"> Mot de passe :</h3> 
