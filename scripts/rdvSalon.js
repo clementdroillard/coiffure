@@ -119,15 +119,86 @@ function chargerEmploieDuTemps()
         eventClick: function (event) {
             if(event.title == 'RDV')
             {
-                //on affiche les infos de l'evenement
-                alert(detailEvenement(event));
+                //on affiche les infos de l'evenement et propose de supprimer
+                alert(detailRdv(event));
+                if (confirm("Voulez-vous supprimer le RDV ?")) {
+                    if(confirm("Etes-vous sûr ?")){
+                        supprimerRdv(event);
+                    }
+                }
+            }
+            if(event.title == 'Indispo')
+            {
+                //on propose de supprimer
+                if (confirm("Voulez-vous supprimer l'indisponibilité ?")) {
+                    if(confirm("Etes-vous sûr ?")){
+                        supprimerIndispo(event);
+                    }
+                }
+            }
+            if(event.title == 'Dispo')
+            {
+                //on propose de supprimer
+                if (confirm("Voulez-vous supprimer l'horraire ?")) {
+                    if(confirm("Etes-vous sûr ?")){
+                        supprimerDispo(event);
+                    }
+                }
             }
         },
     });  
 }
 
+
+
+//fonction qui supprimer une disponibilite
+function supprimerDispo(event)
+{
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", api+"disponibilite/"+event.id, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //on recharge les evenements quand l'indisponilite est supprimer 
+            chargerEvenements();
+        }
+    };
+}
+
+//fonction qui supprimer une indisponibilité
+function supprimerIndispo(event)
+{
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", api+"indisponibilite/"+event.id, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //on recharge les evenements quand l'indisponibilité est supprimer 
+            chargerEvenements();
+        }
+    };
+}
+
+//fonction qui supprimer un rdv
+function supprimerRdv(event)
+{
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", api+"rdv/"+event.id, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //on recharge les evenements quand le rdv est supprimer 
+            chargerEvenements();
+        }
+    };
+}
+
+
 //fonction qui retourne le détail d'un evenement
-function detailEvenement(event)
+function detailRdv(event)
 {
     let message = "Date \nDébut : "+moment(event.start).format('DD-MM-YYYY HH:mm')+" \nFin : ";
     message     += moment(event.end).format('DD-MM-YYYY HH:mm')+" \n\n";

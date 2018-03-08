@@ -3,7 +3,7 @@ setTimeout(chargerTable, 1000);
 
 //fonction de chargement de la table des coiffeurs
 function chargerTable(){
-    var dataTable = $('#table').DataTable();
+    let dataTable = $('#table').DataTable();
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"coiffeur/salon/all/"+salonId, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -14,20 +14,23 @@ function chargerTable(){
             dataTable.clear();
             coiffeurs.forEach(function(coiffeur) {  
                 let valid = "" ;
+                let classBtn = "" ;
+                //message sur le bouton
                 if(coiffeur.validate)
                 {
-                    valid = "Oui";
+                    valid = "Désactiver";
+                    classBtn = "danger"
                 }
                 else
                 {
-                    valid = "Non";
+                    valid = "Activer";
+                    classBtn = "success"
                 }
                 dataTable.row.add([
                     coiffeur.nom,
                     coiffeur.prenom,
                     coiffeur.specialite,
-                    valid,
-                    '<input class="btn  btn-danger btn-lg"  style="font-size: small;" type="submit" onclick="statutCoiffeur('+coiffeur.id+');" value="Activer/Désactiver" />'
+                    '<input class="btn  btn-'+classBtn+' btn-lg"  style="font-size: small;" type="submit" onclick="statutCoiffeur('+coiffeur.id+');" value="'+valid+'" />'
                 ]).draw();          
             });    
         }

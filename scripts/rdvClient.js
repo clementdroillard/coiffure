@@ -128,14 +128,19 @@ function chargerEmploieDuTemps()
 function chargerEvenements()
 {
     const idCoiffeur    = document.getElementById("listeCoiffeur").value;
-    let eventsDispo     = chargerDisponibilite(idCoiffeur);
-    let eventsIndispo   = chargerInsponibilite(idCoiffeur);
-    let eventRDV        = chargerRDV(idCoiffeur);
     $('#calendar').fullCalendar( 'removeEvents');
 
+    let eventsDispo     = chargerDisponibilite(idCoiffeur);
     $('#calendar').fullCalendar( 'renderEvents', eventsDispo );
-    $('#calendar').fullCalendar( 'renderEvents', eventsIndispo );
+    chargerInsponibilite(idCoiffeur);
+    let eventRDV        = chargerRDV(idCoiffeur);
     $('#calendar').fullCalendar( 'renderEvents', eventRDV );
+    
+
+    
+
+
+
 }
 
 //fonction convertion de format date
@@ -168,7 +173,7 @@ function chargerDisponibilite(idCoiffeur)
         disponibilites.forEach(function(disponibilite) {
                 let dateDebutSemaineDisponibilite = new Date(dateDebutSemaine);
                 dateDebutSemaineDisponibilite.setDate(dateDebutSemaineDisponibilite.getDate()+disponibilite.jourSemaine-1);
-                const event ={id: disponibilite.id , title: 'Dispo', start: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureDebut, 
+                const event ={ title: 'Disponible', start: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureDebut, 
                 end: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureFin};
                 events.push(event); 
             });
@@ -187,11 +192,36 @@ function chargerInsponibilite(idCoiffeur)
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
     if (xhr.status === 200 ) {
+        let event;
+        let event1;
         const indisponibilites = JSON.parse(xhr.responseText);
         indisponibilites.forEach(function(indisponibilite) {
-                const event ={id: indisponibilite.id , title: 'Indispo', start: indisponibilite.dateDebut, 
-                end: indisponibilite.dateFin, backgroundColor: '#FF0000'};
-                events.push(event); 
+                $('#calendar').fullCalendar('clientEvents').forEach(function(eventCalendar) {
+                    if(eventCalendar.start._i >= indisponibilite.dateDebut && eventCalendar.end._i <= indisponibilite.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                    }
+                    else if(eventCalendar.start._i < indisponibilite.dateDebut && eventCalendar.end._i > indisponibilite.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                        event ={ title: 'Disponible', start: eventCalendar.start._i, end: indisponibilite.dateDebut};
+                        event1 ={ title: 'Disponible', start: indisponibilite.dateFin,end: eventCalendar.end._i};
+                        $('#calendar').fullCalendar( 'renderEvent', event );
+                        $('#calendar').fullCalendar( 'renderEvent', event1 );
+                    }
+                    else if(eventCalendar.start._i >= indisponibilite.dateDebut && eventCalendar.start._i < indisponibilite.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                        event ={ title: 'Disponible', start: indisponibilite.dateFin, end: eventCalendar.end._i };
+                        $('#calendar').fullCalendar( 'renderEvent', event );
+                    }
+                    else if(eventCalendar.end._i > indisponibilite.dateDebut && eventCalendar.end._i <= indisponibilite.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                        event ={ title: 'Disponible', start: eventCalendar.start._i , end: indisponibilite.dateDebut };
+                        $('#calendar').fullCalendar( 'renderEvent', event );
+                    }
+                });
             });
     }
     
@@ -208,13 +238,37 @@ function chargerRDV(idCoiffeur)
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
     if (xhr.status === 200 ) {
+        let event;
+        let event1;
         const rdvs = JSON.parse(xhr.responseText);
-        rdvs.forEach(function(rdv) {
-                //on affiche indispo pour ne pas donner d'info au client
-                const event ={id: rdv.id , title: 'Indispo', start: rdv.dateDebut, 
-                end: rdv.dateFin, backgroundColor: '#FF0000'};
-                events.push(event); 
+            rdvs.forEach(function(rdv) {
+            $('#calendar').fullCalendar('clientEvents').forEach(function(eventCalendar) {
+                if(eventCalendar.start._i == rdv.dateDebut && eventCalendar.end._i == rdv.dateFin )
+                {
+                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                }
+                if(eventCalendar.start._i < rdv.dateDebut && eventCalendar.end._i > rdv.dateFin )
+                {
+                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                    event ={ title: 'Disponible', start: eventCalendar.start._i, end: rdv.dateDebut};
+                    event1 ={ title: 'Disponible', start: rdv.dateFin,end: eventCalendar.end._i};
+                    $('#calendar').fullCalendar( 'renderEvent', event );
+                    $('#calendar').fullCalendar( 'renderEvent', event1 );
+                }
+                else if(eventCalendar.start._i >= rdv.dateDebut && eventCalendar.start._i < rdv.dateFin )
+                {
+                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                    event ={ title: 'Disponible', start: rdv.dateFin, end: eventCalendar.end._i };
+                    $('#calendar').fullCalendar( 'renderEvent', event );
+                }
+                else if(eventCalendar.end._i > rdv.dateDebut && eventCalendar.end._i <= rdv.dateFin )
+                {
+                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                    event ={ title: 'Disponible', start: eventCalendar.start._i , end: rdv.dateDebut };
+                    $('#calendar').fullCalendar( 'renderEvent', event );
+                }
             });
+        });
     }
     
     return events
