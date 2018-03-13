@@ -10,7 +10,7 @@ function chargerTable(){
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
     xhr.onreadystatechange = function() {
-        if (xhr.status == 200 && xhr.readyState == 4 ) {
+        if (xhr.status == 200 && xhr.readyState == 4 && xhr.responseText != "") {
             const clients = JSON.parse(xhr.responseText);
             clients.forEach(function(client) {  
                 let valid = "" ;
@@ -30,7 +30,7 @@ function chargerTable(){
     xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr1.send(null);
     xhr1.onreadystatechange = function() {
-        if (xhr1.status == 200 && xhr1.readyState == 4 ) {
+        if (xhr1.status == 200 && xhr1.readyState == 4 && xhr1.responseText != "") {
             const clients = JSON.parse(xhr1.responseText);
             clients.forEach(function(client) {  
                 let valid = "" ;

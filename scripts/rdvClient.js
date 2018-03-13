@@ -1,6 +1,6 @@
 let dateDebutSemaine;
 let dateFinSemaine;
-
+let dureeMin; 
 
 chargerListeSalon();
 
@@ -16,7 +16,7 @@ function chargerListeSalon()
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
     xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
+        if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
             const salons = JSON.parse(xhr.responseText);
             salons.forEach(function(salon) {
                 let option = document.createElement("option");
@@ -26,6 +26,7 @@ function chargerListeSalon()
             });
             if(salons.length > 0)
             {
+                chargerDureeMin();
                 chargerListeCoiffeur(); 
                 chargerListeprestation();
             }       
@@ -50,7 +51,7 @@ function chargerListeCoiffeur()
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
     xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
+        if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
 
             const coiffeurs = JSON.parse(xhr.responseText);
             coiffeurs.forEach(function(coiffeur) {
@@ -104,6 +105,19 @@ function chargerListeprestation()
     };
 }
 
+//on charge la duree minimum de prestation du salon
+function chargerDureeMin()
+{
+    const idSalon    = document.getElementById("listeSalon").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", api+"prestation/salon/min/"+idSalon, false);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(null);
+    if (xhr.status === 200 ) {
+        dureeMin = xhr.responseText;
+    }
+}
+
 //fonction de chargement de l'emploie du temps
 function chargerEmploieDuTemps()
 {
@@ -128,20 +142,31 @@ function chargerEmploieDuTemps()
 function chargerEvenements()
 {
     const idCoiffeur    = document.getElementById("listeCoiffeur").value;
-    $('#calendar').fullCalendar( 'removeEvents');
+    if(idCoiffeur != "")
+    {
+        $('#calendar').fullCalendar( 'removeEvents');
 
-    let eventsDispo     = chargerDisponibilite(idCoiffeur);
-    $('#calendar').fullCalendar( 'renderEvents', eventsDispo );
-    chargerInsponibilite(idCoiffeur);
-    let eventRDV        = chargerRDV(idCoiffeur);
-    $('#calendar').fullCalendar( 'renderEvents', eventRDV );
-    
-
-    
-
-
-
+        chargerDisponibilite(idCoiffeur);
+        chargerInsponibilite(idCoiffeur);
+        chargerRDV(idCoiffeur);
+    }
 }
+
+//creation d'un evenement sur le calendrier si il est plus long ou égale a la plus courte prestation du salon
+function createEvent(event)
+{
+    const dateDebut = new Date(event.start.replace(' ','T'));
+    const dateFin = new Date(event.end.replace(' ','T'));
+    const dureeEvent = dateDebut - dateFin
+    const minPrestation = new Date('T'+dureeMin).getTime();
+    if( dureeEvent <= minPrestation)
+    {
+        $('#calendar').fullCalendar( 'renderEvent', event );
+    }   
+}
+
+
+
 
 //fonction convertion de format date
 function dateToString(date)
@@ -163,7 +188,6 @@ function dateToString(date)
 //fonction de chargement des disponibilites
 function chargerDisponibilite(idCoiffeur)
 {
-    var events = [];
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"disponibilite/coiffeur/"+idCoiffeur, false);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -175,17 +199,14 @@ function chargerDisponibilite(idCoiffeur)
                 dateDebutSemaineDisponibilite.setDate(dateDebutSemaineDisponibilite.getDate()+disponibilite.jourSemaine-1);
                 const event ={ title: 'Disponible', start: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureDebut, 
                 end: dateToString(dateDebutSemaineDisponibilite)+" "+disponibilite.heureFin};
-                events.push(event); 
+                createEvent(event); 
             });
     }
-    
-    return events
 }
 
-//fonction de chargement des indisponibilites
+//fonction de chargement des indisponibilites on supprime les horraires sur les indisponibilités
 function chargerInsponibilite(idCoiffeur)
 {
-    var events = [];
     //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"indisponibilite/coiffeur/"+idCoiffeur+"/"+dateToString(dateDebutSemaine)+"/"+dateToString(dateFinSemaine), false);
@@ -196,42 +217,43 @@ function chargerInsponibilite(idCoiffeur)
         let event1;
         const indisponibilites = JSON.parse(xhr.responseText);
         indisponibilites.forEach(function(indisponibilite) {
+                //affichage uniquement du temps disponible
                 $('#calendar').fullCalendar('clientEvents').forEach(function(eventCalendar) {
-                    if(eventCalendar.start._i >= indisponibilite.dateDebut && eventCalendar.end._i <= indisponibilite.dateFin )
+                    if(eventCalendar.title == "Disponible")
                     {
-                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                    }
-                    else if(eventCalendar.start._i < indisponibilite.dateDebut && eventCalendar.end._i > indisponibilite.dateFin )
-                    {
-                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                        event ={ title: 'Disponible', start: eventCalendar.start._i, end: indisponibilite.dateDebut};
-                        event1 ={ title: 'Disponible', start: indisponibilite.dateFin,end: eventCalendar.end._i};
-                        $('#calendar').fullCalendar( 'renderEvent', event );
-                        $('#calendar').fullCalendar( 'renderEvent', event1 );
-                    }
-                    else if(eventCalendar.start._i >= indisponibilite.dateDebut && eventCalendar.start._i < indisponibilite.dateFin )
-                    {
-                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                        event ={ title: 'Disponible', start: indisponibilite.dateFin, end: eventCalendar.end._i };
-                        $('#calendar').fullCalendar( 'renderEvent', event );
-                    }
-                    else if(eventCalendar.end._i > indisponibilite.dateDebut && eventCalendar.end._i <= indisponibilite.dateFin )
-                    {
-                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                        event ={ title: 'Disponible', start: eventCalendar.start._i , end: indisponibilite.dateDebut };
-                        $('#calendar').fullCalendar( 'renderEvent', event );
+                        if(eventCalendar.start._i >= indisponibilite.dateDebut && eventCalendar.end._i <= indisponibilite.dateFin )
+                        {
+                            $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                        }
+                        else if(eventCalendar.start._i < indisponibilite.dateDebut && eventCalendar.end._i > indisponibilite.dateFin )
+                        {
+                            $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                            event ={ title: 'Disponible', start: eventCalendar.start._i, end: indisponibilite.dateDebut};
+                            event1 ={ title: 'Disponible', start: indisponibilite.dateFin,end: eventCalendar.end._i};
+                            createEvent(event);
+                            createEvent(event1);
+                        }
+                        else if(eventCalendar.start._i >= indisponibilite.dateDebut && eventCalendar.start._i < indisponibilite.dateFin )
+                        {
+                            $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                            event ={ title: 'Disponible', start: indisponibilite.dateFin, end: eventCalendar.end._i };
+                            createEvent(event);
+                        }
+                        else if(eventCalendar.end._i > indisponibilite.dateDebut && eventCalendar.end._i <= indisponibilite.dateFin )
+                        {
+                            $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                            event ={ title: 'Disponible', start: eventCalendar.start._i , end: indisponibilite.dateDebut };
+                            createEvent(event);
+                        }
                     }
                 });
             });
     }
-    
-    return events
 }
 
-//fonction de chargement des rdv
+//fonction de chargement des rdv  on supprime les horraires sur les rdv
 function chargerRDV(idCoiffeur)
 {
-    var events = [];
     //on envoie la requete de connexion
     let xhr = new XMLHttpRequest();
     xhr.open("GET", api+"rdv/coiffeur/"+idCoiffeur+"/"+dateToString(dateDebutSemaine)+"/"+dateToString(dateFinSemaine), false);
@@ -243,35 +265,43 @@ function chargerRDV(idCoiffeur)
         const rdvs = JSON.parse(xhr.responseText);
             rdvs.forEach(function(rdv) {
             $('#calendar').fullCalendar('clientEvents').forEach(function(eventCalendar) {
-                if(eventCalendar.start._i == rdv.dateDebut && eventCalendar.end._i == rdv.dateFin )
+                //affichage uniquement du temps disponible
+                if(eventCalendar.title == "Disponible")
                 {
-                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                }
-                if(eventCalendar.start._i < rdv.dateDebut && eventCalendar.end._i > rdv.dateFin )
-                {
-                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                    event ={ title: 'Disponible', start: eventCalendar.start._i, end: rdv.dateDebut};
-                    event1 ={ title: 'Disponible', start: rdv.dateFin,end: eventCalendar.end._i};
-                    $('#calendar').fullCalendar( 'renderEvent', event );
-                    $('#calendar').fullCalendar( 'renderEvent', event1 );
-                }
-                else if(eventCalendar.start._i >= rdv.dateDebut && eventCalendar.start._i < rdv.dateFin )
-                {
-                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                    event ={ title: 'Disponible', start: rdv.dateFin, end: eventCalendar.end._i };
-                    $('#calendar').fullCalendar( 'renderEvent', event );
-                }
-                else if(eventCalendar.end._i > rdv.dateDebut && eventCalendar.end._i <= rdv.dateFin )
-                {
-                    $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
-                    event ={ title: 'Disponible', start: eventCalendar.start._i , end: rdv.dateDebut };
-                    $('#calendar').fullCalendar( 'renderEvent', event );
+                    if(eventCalendar.start._i == rdv.dateDebut && eventCalendar.end._i == rdv.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                    }
+                    if(eventCalendar.start._i < rdv.dateDebut && eventCalendar.end._i > rdv.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                        event ={ title: 'Disponible', start: eventCalendar.start._i, end: rdv.dateDebut};
+                        event1 ={ title: 'Disponible', start: rdv.dateFin,end: eventCalendar.end._i};
+                        createEvent(event);
+                        createEvent(event1);
+                    }
+                    else if(eventCalendar.start._i >= rdv.dateDebut && eventCalendar.start._i < rdv.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                        event ={ title: 'Disponible', start: rdv.dateFin, end: eventCalendar.end._i };
+                        createEvent(event);
+                    }
+                    else if(eventCalendar.end._i > rdv.dateDebut && eventCalendar.end._i <= rdv.dateFin )
+                    {
+                        $('#calendar').fullCalendar('removeEvents', eventCalendar._id );
+                        event ={ title: 'Disponible', start: eventCalendar.start._i , end: rdv.dateDebut };
+                        createEvent(event);
+                    }
                 }
             });
+            //on affiche uniquement les rdvs du client
+            if(rdv.client_id == clientId )
+            {
+                    event ={ id: rdv.id, title: 'RDV', start: rdv.dateDebut, end: rdv.dateFin, backgroundColor: '#610B5E' };
+                    createEvent(event);
+            }
         });
     }
-    
-    return events
 }
 
 //fonction d'ajout d'un rdv
@@ -282,29 +312,34 @@ function postRdv(){
     document.getElementById("info").style.display = "none" ;
 
     //recupère les infos a envoyer
-    dateDebut = $("#datetimepicker1").find("input").val()+':00';
+    dateDebut = $("#datetimepicker1").find("input").val();
     coiffeur_id = document.getElementById("listeCoiffeur").value;
     prestation_id = document.getElementById("listePrestation").value;
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", api+"rdv/client", true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("dateDebut="+dateDebut+"&coiffeur_id="+coiffeur_id+"&prestation_id="+prestation_id+"&client_id="+clientId);
-    xhr.onreadystatechange = function() {
-        //les renseignements du rdv sont bon
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            document.getElementById("infoRdvOK").style.display = "" ;
-        }
-        //les renseignements sont mauvais
-        if ( xhr.readyState == 4 && xhr.status == 400 ) {
-            document.getElementById("infoRdvKO").style.display = "" ;
-        }
-        //erreur 404
-        if ( xhr.readyState == 4 && xhr.status == 404 ) {
-            document.getElementById("info").style.display = "" ;
-        }
-        if(xhr.readyState == 4){
-            //quand on la reponse on recharge les rdv
-            chargerEvenements(); 
-        }
-    };
+
+    if(dateDebut != "" && coiffeur_id != ""  && prestation_id != ""  && clientId != "" )
+    {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", api+"rdv/client", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("dateDebut="+dateDebut+"&coiffeur_id="+coiffeur_id+"&prestation_id="+prestation_id+"&client_id="+clientId);
+        xhr.onreadystatechange = function() {
+            //les renseignements du rdv sont bon
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("infoRdvOK").style.display = "" ;
+            }
+            //les renseignements sont mauvais
+            if ( xhr.readyState == 4 && xhr.status == 400 ) {
+                document.getElementById("infoRdvKO").style.display = "" ;
+            }
+            //erreur 404
+            if ( xhr.readyState == 4 && xhr.status == 404 ) {
+                document.getElementById("info").style.display = "" ;
+            }
+            if(xhr.readyState == 4){
+                //quand on la reponse on recharge les rdv
+                chargerEvenements(); 
+            }
+        };
+    }
+
 }

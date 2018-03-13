@@ -9,7 +9,7 @@ function chargerTable(){
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(null);
     xhr.onreadystatechange = function() {
-        if (xhr.status == 200 && xhr.readyState == 4 ) {
+        if (xhr.status == 200 && xhr.readyState == 4 &&  xhr.responseText != "") {
             const prestations = JSON.parse(xhr.responseText);
             dataTable.clear();
             prestations.forEach(function(prestation) {  
