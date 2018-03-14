@@ -16,13 +16,13 @@
 		  			<strong>Le RDV est pris</strong> 
 				</div>
 				<h3 class="box-title">1) Choisir votre salon :</h3>
-		    	<select id="listeSalon" onchange="chargerDureeMin();chargerListeCoiffeur();chargerListeprestation();" class="form-control" >
+		    	<select id="listeSalon" onchange="chargerListeprestation();chargerListeCoiffeur();" class="form-control" >
 				</select>
 				<h3 class="box-title">2) Choisir votre coiffeur :</h3>
 				<select id="listeCoiffeur" onchange="chargerEvenements()"  class="form-control" >
 				</select>
 				<h3 class="box-title">3) Choisir votre prestation :</h3>
-				<select id="listePrestation"  class="form-control" >
+				<select id="listePrestation" onchange="chargerEvenements()"  class="form-control" >
 				</select>
 				<h3 class="box-title">4) Choisir votre date/heure :</h3>
 				<div class='input-group date' id='datetimepicker1'>

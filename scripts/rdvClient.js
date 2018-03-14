@@ -1,6 +1,6 @@
 let dateDebutSemaine;
 let dateFinSemaine;
-let dureeMin; 
+let dureePrestation; 
 
 chargerListeSalon();
 
@@ -26,9 +26,8 @@ function chargerListeSalon()
             });
             if(salons.length > 0)
             {
-                chargerDureeMin();
-                chargerListeCoiffeur(); 
                 chargerListeprestation();
+                chargerListeCoiffeur(); 
             }       
         }
         if ( xhr.status == 404) {
@@ -105,17 +104,22 @@ function chargerListeprestation()
     };
 }
 
-//on charge la duree minimum de prestation du salon
-function chargerDureeMin()
+//on charge la duree de la prestation selectionné
+function chargerDureePrestation()
 {
-    const idSalon    = document.getElementById("listeSalon").value;
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", api+"prestation/salon/min/"+idSalon, false);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send(null);
-    if (xhr.status === 200 ) {
-        dureeMin = xhr.responseText;
+    const idPrestation    = document.getElementById("listePrestation").value;
+    if(idPrestation != "")
+    {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", api+"prestation/"+idPrestation, false);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send(null);
+        if (xhr.status === 200 ) {
+            dureePrestation = JSON.parse(xhr.responseText);
+            dureePrestation = dureePrestation.duree;
+        }
     }
+    
 }
 
 //fonction de chargement de l'emploie du temps
@@ -141,6 +145,7 @@ function chargerEmploieDuTemps()
 //fonction de chargement des evenements
 function chargerEvenements()
 {
+    chargerDureePrestation();
     const idCoiffeur    = document.getElementById("listeCoiffeur").value;
     if(idCoiffeur != "")
     {
@@ -152,14 +157,15 @@ function chargerEvenements()
     }
 }
 
-//creation d'un evenement sur le calendrier si il est plus long ou égale a la plus courte prestation du salon
+//creation d'un evenement sur le calendrier si il est plus long ou égale a la prestation séléctionné
 function createEvent(event)
 {
     const dateDebut = new Date(event.start.replace(' ','T'));
     const dateFin = new Date(event.end.replace(' ','T'));
-    const dureeEvent = dateDebut - dateFin
-    const minPrestation = new Date('T'+dureeMin).getTime();
-    if( dureeEvent <= minPrestation)
+    const dureeEvent =  dateFin - dateDebut;
+    let minPrestation = new Date('T'+dureePrestation);
+    minPrestation = minPrestation.setHours(minPrestation.getHours()+1);
+    if( dureeEvent >= minPrestation || event.title == 'RDV')
     {
         $('#calendar').fullCalendar( 'renderEvent', event );
     }   
