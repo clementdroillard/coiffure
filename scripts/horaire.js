@@ -39,11 +39,22 @@ function chargerTimePicker(){
 //fonction de controle de saisie
 function ajoutDispo(){
     document.getElementById("info").style.display = "none" ;
+    document.getElementById("infoHorraire").style.display = "none" ;
+    
     const debutTaille = verifChamp(document.getElementById("debut"));
     const finTaille  = verifChamp(document.getElementById("fin"));
    
     if(debutTaille && finTaille)
-        postDispo();
+    {
+        if(document.getElementById("debut").value < document.getElementById("fin").value)
+        {
+            postDispo();
+        }
+        else
+        {
+            document.getElementById("infoHorraire").style.display = "" ;
+        }  
+    }
     else
     {
         document.getElementById("info").style.display = "" ;

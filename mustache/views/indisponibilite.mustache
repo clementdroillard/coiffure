@@ -6,12 +6,15 @@
 	    <div class="row">
 	         <div class="col-md-5 col-md-offset-4 ">
 		    	<h1>Ajouter une indisponibilité : </h1>
-		    	<div class="alert alert-danger" style="display:none;" id="info">
-  					Veuillez renseigner une date de début et de fin !
-				</div>
-				<div class="alert alert-success" style="display:none;" id="infoOk">
-  					Indisponibilité enregistré !
-				</div>
+          <div class="alert alert-danger" style="display:none;" id="info">
+            Veuillez renseigner une date de début et de fin !
+          </div>
+		    	<div class="alert alert-danger" style="display:none;" id="infoHorraire">
+  					Veuillez renseigner une date de début inférieur à celle de fin !
+				  </div>
+  				<div class="alert alert-success" style="display:none;" id="infoOk">
+    					Indisponibilité enregistré !
+  				</div>
 		        <h3 class="box-title">Coiffeur :</h3>
 		        <select id="listeCoiffeur" class="form-control" >
 				</select>
