@@ -2,7 +2,7 @@
 function verifMail(champ)
 {
    var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
-   if(!regex.test(champ.value))
+   if(!regex.test(champ.value) || champ.value.length > 190 )
    {
       surligne(champ, true);
       return false;
@@ -18,7 +18,7 @@ function verifMail(champ)
 function verifTel(champ)
 {
    var regex = /^[0-9]{10}/;
-   if(!regex.test(champ.value))
+   if(!regex.test(champ.value) || champ.value.length != 10 )
    {
       surligne(champ, true);
       return false;

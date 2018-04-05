@@ -5,7 +5,7 @@
  	//connexion a notre api
  	include("connexion.php");
 
- 	if(!isset($_SESSION['libelle']))
+ 	if(!isset($_SESSION['prenom']))
  	{
  		header('Location: ../index.php');
  	}
@@ -13,9 +13,8 @@
 	$m = new Mustache_Engine(array(
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
-	
+
 	//affichage de notre vue 
- 	echo $m->render('rdvSalon' ,array('libelleSalon'=>$_SESSION['libelle'],'idSalon'=>$_SESSION['id'],'api'=>$api));
+ 	echo $m->render('compteClient' ,array('prenomClient'=>$_SESSION['prenom'],'nomClient'=>$_SESSION['nom'],'mailClient'=>$_SESSION['mail'],'telClient'=>$_SESSION['telephone'],'idClient'=>$_SESSION['id'],'api'=>$api));
 
  ?>
-

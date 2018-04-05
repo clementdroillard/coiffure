@@ -17,10 +17,12 @@
 	        <input class="form-control" type="text" id="ville" onblur="verifChamp(this)" /><br />
 	       	<h3 class="box-title">Adresse :</h3> 
 	        <input class="form-control" type="text" id="adresse" onblur="verifChamp(this)" /><br />
-	        <h3 class="box-title">Nom de Compte :</h3> 
-	        <input class="form-control" type="text" id="nomDeCompte" onblur="verifChamp(this)" /><br />
+	        <h3 class="box-title">Adresse mail :</h3> 
+	        <input class="form-control" type="text" id="adresseMail" onblur="verifMail(this)" /><br />
 	        <h3 class="box-title"> Mot de passe :</h3> 
 	        <input class="form-control" type="password" id="motDePasse" onblur="verifChamp(this)"  /><br />
+	        <h3 class="box-title">Téléphone :</h3> 
+	        <input class="form-control" type="text" id="telephone" onblur="verifTel(this)" /><br />
 	        <center><input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="inscription();" value="Inscription" /></center>
 		    <form method="POST" action="salon.php" id="postSalon">
 				<input type="hidden" id="salonValue" name="salon" />

@@ -8,7 +8,7 @@
  	//la variable saisies prend les valeurs de la table saisie 
  	if(!isset($_POST['salon']))
  	{
- 		if(!isset($_SESSION['nomDeCompte']))
+ 		if(!isset($_SESSION['libelle']))
  		{
  			 header('Location: ../index.php');
  		}
@@ -20,7 +20,8 @@
  		$_SESSION['CP'] = $salon->CP;
  		$_SESSION['ville'] = $salon->ville;
  		$_SESSION['adresse'] = $salon->adresse;
- 		$_SESSION['nomDeCompte'] = $salon->nomDeCompte;
+ 		$_SESSION['adresseMail'] = $salon->adresseMail;
+ 		$_SESSION['telephone'] = $salon->telephone;
  		$_SESSION['id'] = $salon->id;
  	}
 
@@ -28,7 +29,7 @@
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
 	//affichage de notre vue 
- 	echo $m->render('salon' ,array('libelleSalon'=>$_SESSION['libelle'],'nomDeCompteSalon'=>$_SESSION['nomDeCompte'],'idSalon'=>$_SESSION['id'],'api'=>$api));
+ 	echo $m->render('salon' ,array('libelleSalon'=>$_SESSION['libelle'],'idSalon'=>$_SESSION['id'],'api'=>$api));
 
  ?>
 

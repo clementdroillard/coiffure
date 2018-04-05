@@ -5,7 +5,7 @@
  	//connexion a notre api
  	include("connexion.php");
 
- 	if(!isset($_SESSION['nomDeCompte']))
+ 	if(!isset($_SESSION['libelle']))
  	{
  		header('Location: ../index.php');
  	}
@@ -15,7 +15,7 @@
 	));
 	
 	//affichage de notre vue 
- 	echo $m->render('clientSalon' ,array('libelleSalon'=>$_SESSION['libelle'],'nomDeCompteSalon'=>$_SESSION['nomDeCompte'],'idSalon'=>$_SESSION['id'],'api'=>$api));
+ 	echo $m->render('clientSalon' ,array('libelleSalon'=>$_SESSION['libelle'],'idSalon'=>$_SESSION['id'],'api'=>$api));
 
  ?>
 

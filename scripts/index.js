@@ -1,7 +1,7 @@
 //fonction de connexion pour le client
 function connexionClient()
 {
-    const email = document.getElementById("adresseMail").value;
+    const email = document.getElementById("adresseMailClient").value;
     const pass = document.getElementById("motDePasseClient").value;
     document.getElementById("info").style.display = "none" ;
 
@@ -27,7 +27,7 @@ function connexionClient()
 //fonction de connexion pour le salon
 function connexionSalon()
 {
-    const nomDeCompte = document.getElementById("nomDeCompte").value;
+    const mail = document.getElementById("adresseMailSalon").value;
     const pass = document.getElementById("motDePasseSalon").value;
     document.getElementById("info").style.display = "none" ;
 
@@ -35,7 +35,7 @@ function connexionSalon()
     let xhr = new XMLHttpRequest();
     xhr.open("POST", api+"salon/auth", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("nomDeCompte="+nomDeCompte+"&motDePasse="+pass);
+    xhr.send("adresseMail="+mail+"&motDePasse="+pass);
     xhr.onreadystatechange = function() {
         //les identifiants sont bons
         if (xhr.readyState == 4 && xhr.status == 200) {

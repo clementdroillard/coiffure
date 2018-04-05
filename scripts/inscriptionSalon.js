@@ -5,10 +5,11 @@ function inscription(){
     const CPTaille  = verifChampCP(document.getElementById("CP"));
     const villeTaille  = verifChamp(document.getElementById("ville"));
     const adresseTaille  = verifChamp(document.getElementById("adresse"));
-    const nomDeCompteTaille  = verifChamp(document.getElementById("nomDeCompte"));
+    const adressemailVerif  = verifMail(document.getElementById("adresseMail"));
+    const telephoneVerif  = verifTel(document.getElementById("telephone"));
     const motDePasseTaille  = verifChamp(document.getElementById("motDePasse"));
    
-    if(libelleTaille && CPTaille && villeTaille && adresseTaille && nomDeCompteTaille && motDePasseTaille)
+    if(libelleTaille && CPTaille && villeTaille && adresseTaille && adressemailVerif  &&  telephoneVerif && motDePasseTaille)
         inscriptionPost();
     else
     {
@@ -23,12 +24,13 @@ function inscriptionPost(){
     const CP = document.getElementById("CP").value;
     const ville = document.getElementById("ville").value;
     const adresse = document.getElementById("adresse").value;
-    const nomDeCompte = document.getElementById("nomDeCompte").value;
+    const adresseMail = document.getElementById("adresseMail").value;
+    const telephone = document.getElementById("telephone").value;
     const motDePasse = document.getElementById("motDePasse").value;
     let xhr = new XMLHttpRequest();
     xhr.open("POST", api+"salon", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("libelle="+libelle+"&CP="+CP+"&ville="+ville+"&adresse="+adresse+"&nomDeCompte="+nomDeCompte+"&motDePasse="+motDePasse);
+    xhr.send("libelle="+libelle+"&CP="+CP+"&ville="+ville+"&adresse="+adresse+"&adresseMail="+adresseMail+"&telephone="+telephone+"&motDePasse="+motDePasse);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             const salon = xhr.responseText;

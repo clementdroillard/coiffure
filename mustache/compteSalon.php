@@ -13,9 +13,8 @@
 	$m = new Mustache_Engine(array(
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
-	
+
 	//affichage de notre vue 
- 	echo $m->render('rdvSalon' ,array('libelleSalon'=>$_SESSION['libelle'],'idSalon'=>$_SESSION['id'],'api'=>$api));
+ 	echo $m->render('compteSalon' ,array('libelleSalon'=>$_SESSION['libelle'],'CpSalon'=>$_SESSION['CP'],'villeSalon'=>$_SESSION['ville'],'adresseSalon'=>$_SESSION['adresse'],'adresseMailSalon'=>$_SESSION['adresseMail'],'salonId'=>$_SESSION['id'],'telephoneSalon'=>$_SESSION['telephone'],'api'=>$api));
 
  ?>
-

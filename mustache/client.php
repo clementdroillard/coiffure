@@ -20,6 +20,7 @@
  		$_SESSION['nom'] = $client->nom;
  		$_SESSION['mail'] = $client->adresseMail;
  		$_SESSION['id'] = $client->id;
+ 		$_SESSION['telephone'] = $client->telephone;
  	}
 
 	$m = new Mustache_Engine(array(
