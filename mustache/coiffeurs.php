@@ -5,7 +5,7 @@
  	//connexion a notre api
  	include("connexion.php");
 
- 	if(!isset($_SESSION['nomDeCompte']))
+ 	if(!isset($_SESSION['libelle']))
  	{
  		header('Location: ../index.php');
  	}
