@@ -13,9 +13,9 @@
     	'loader' => new Mustache_Loader_FilesystemLoader(dirname(__FILE__) . '/views'),
 	));
 	//affichage de notre vue 
-	if(isset($_SESSION['nomDeCompte']))
+	if(isset($_SESSION['libelle']))
 	{
-		echo $m->render('inscriptionClient' ,array('libelleSalon'=>$_SESSION['libelle'],'nomDeCompteSalon'=>$_SESSION['nomDeCompte'],'idSalon'=>$_SESSION['id'],'api'=>$api));
+		echo $m->render('inscriptionClient' ,array('libelleSalon'=>$_SESSION['libelle'],'adresseMail'=>$_SESSION['adresseMail'],'idSalon'=>$_SESSION['id'],'api'=>$api));
 	}
 	else
 	{
