@@ -73,7 +73,7 @@ function verifChampCP(champ)
 function verifNombre(champ)
 {
    var nombre = parseInt(champ.value);
-   if(isNaN(nombre) || champ.value.length > 190 )
+   if(isNaN(nombre) || champ.value.length > 190 || champ.value < 0)
    {
       surligne(champ, true);
       return false;

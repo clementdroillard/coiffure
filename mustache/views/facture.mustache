@@ -1,0 +1,79 @@
+{{> header}}
+
+<div class="content-wrapper">
+    <section class="content">
+	    <div class="row">
+	        <div class="col-md-6">
+		    	<h1>Les prestations :</h1>
+		        <table id="tablePrestation" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			        <thead>
+			            <tr>
+			            	<th>id</th>
+			                <th>Nom Prestation</th>
+			                <th>Prix</th>
+			                <th>Durée</th>
+			                <th>Quantité</th>
+			            </tr>
+			        </thead>
+			        <tfoot>
+			            <tr>
+			            	<th>id</th>
+				            <th>Nom Prestation</th>
+			                <th>Prix</th>
+			                <th>Durée</th>
+			                <th>Quantité</th>
+			            </tr>
+        			</tfoot>
+        			<tbody id="tbody">
+        			</tbody>
+			    </table>
+			</div>
+			<div class="col-md-6">
+			<h1>Les articles :</h1>
+			<table id="tableArticle" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			        <thead>
+			            <tr>
+			            	<th>id</th>
+			                <th>Nom Article</th>
+			                <th>Prix</th>
+			                <th>Code</th>
+			                <th>Stock</th>
+			                <th>Quantité</th>
+			            </tr>
+			        </thead>
+			        <tfoot>
+			            <tr>
+			            	<th>id</th>
+				            <th>Nom Article</th>
+			                <th>Prix</th>
+			                <th>Code</th>
+			                <th>Stock</th>
+			                <th>Quantité</th>
+			            </tr>
+        			</tfoot>
+        			<tbody id="tbody">
+        			</tbody>
+			    </table>	
+			</div>
+		</div>	
+		<div class="row"> 
+			<div class="col-lg-5 col-offset-2 centered"></div>
+				<input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="chargerTablePrestation();chargerTableArticle();" value="Retour" />
+				<input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="afficherSelections();" value="Afficher" />
+			</div>
+		</div>
+    </section>
+</div>
+
+
+
+
+<script>
+  const salonId = {{ idSalon }};
+  const api = '{{ api }}';
+</script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script src="../scripts/controleForm.js"></script>
+<script src="../scripts/facture.js"></script>
+
+{{> footer}}
