@@ -57,9 +57,10 @@
 			</div>
 		</div>	
 		<div class="row"> 
-			<div class="col-lg-5 col-offset-2 centered"></div>
+			<div class="col-lg-4 col-offset-2 centered"></div>
 				<input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="chargerTablePrestation();chargerTableArticle();" value="Retour" />
 				<input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="afficherSelections();" value="Afficher" />
+				<input  style="font-size: xx-large;" class="btn  btn-primary btn-lg" type="submit" onclick="creerPDF();" value="Créer PDF" />
 			</div>
 		</div>
     </section>
@@ -72,7 +73,7 @@
   const salonId = {{ idSalon }};
   const api = '{{ api }}';
 </script>
-<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script src="../node_modules/jspdf/dist/jspdf.min.js"></script>
 <script src="../scripts/controleForm.js"></script>
 <script src="../scripts/facture.js"></script>
 

@@ -105,11 +105,11 @@ function afficherSelections(){
         }
         
     }
-    creerPDF();
 }
 
 function creerPDF()
 {
+    afficherSelections();
     var doc = new jsPDF();
 
 
